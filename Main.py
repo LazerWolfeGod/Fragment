@@ -5,11 +5,12 @@ pygame.init()
 screenw = 1200
 screenh = 900
 screen = pygame.display.set_mode((screenw, screenh),pygame.RESIZABLE)
-from Level import Level
 ui = pyui.UI()
 done = False
 clock = pygame.time.Clock()
 ui.styleload_green()
+
+from Level import Level
 
 
 game = Level(ui)
