@@ -175,11 +175,23 @@ class TileMap:
                 x.refresh(self.grid)
                 
     def check_collisions(self,obj):
-        for y in range(self.grid_h):
-            for x in range(self.grid_w):
+        if len(obj) == 3:
+            top_left = self.world_pos_to_grid_pos((obj[0]-obj[2],obj[1]-obj[2]))
+            bottom_right = self.world_pos_to_grid_pos((obj[0]+obj[2],obj[1]+obj[2]))
+        else:
+            top_left = self.world_pos_to_grid_pos((obj[0],obj[1]))
+            bottom_right = self.world_pos_to_grid_pos((obj[0]+obj[2],obj[1]+obj[3]))
+        
+        for y in range(top_left[1]-1,bottom_right[1]+2):
+            for x in range(top_left[0]-1,bottom_right[0]+2):
                 if self.grid[y][x].get_collide(obj):
                     return True
         return False
+    def world_pos_to_grid_pos(self,pos):
+        grid_pos = [int(pos[0]//self.cell_size),int(pos[1]//self.cell_size)]
+        return grid_pos
+    def check_in_grid(self,grid_pos):
+        return grid_pos[0]>-1 and grid_pos[1]>-1 and grid_pos[0]<self.grid_w and grid_pos[1]<self.grid_h  
         
     def get_width(self):
         return self.grid_w
