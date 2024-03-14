@@ -21,10 +21,12 @@ def solve(center,arm,target):
     L2 = arm[1][0]
 
     arm[0][1] = math.atan2(target[1]-center[1],target[0]-center[0])
-    if target[0]<center[0]: arm[0][1]*=-1
 
-    if target[0]<center[0]: invert = 1
-    else: invert = -1
+##    if target[0]<center[0]:
+##        invert = 1
+##        arm[0][1]*=-1
+##    else: invert = -1
+    invert = -1
 
     arm[0][1]*=-invert
     
