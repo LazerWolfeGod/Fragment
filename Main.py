@@ -23,6 +23,7 @@ while not done:
     game.game_tick(screen)
     
     ui.rendergui(screen)
+    ui.write(screen,1,1,str(round(clock.get_fps(),1)),20,center=False)
     pygame.display.flip()
     clock.tick(60)                                               
 pygame.quit() 

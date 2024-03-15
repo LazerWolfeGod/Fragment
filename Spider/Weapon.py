@@ -1,0 +1,36 @@
+import pygame,math,random
+import PyUI as pyui
+from Projectile import *
+from Utility_functions import *
+from Spider.Spider_Data import Data
+
+class Weapon:
+    def __init__(self,weapon_name):
+        self.weapon_name = weapon_name
+        
+        stats = Data.Weapons[self.weapon_name]['Stats']
+        self.length = stats['Length']
+        self.projectile_type = stats['Projectile']
+        
+        
+        self.projectile_dict = {'Energy_Ball':self.make_energy_ball}
+
+        self.make_projectile = self.projectile_dict[self.projectile_type]
+
+        self.image = Data.Weapons[self.weapon_name]['Image']
+        self.image = pygame.transform.scale_by(self.image,(self.length)/(self.image.get_width()-self.image.get_height()))
+
+
+    def shoot(self,projectiles,ui,x,y,angle):
+        self.make_projectile(projectiles,ui,x,y,angle)
+        
+##        projectiles.append(Fader(ui,x,y,angle+random.gauss(0,0.1)))
+
+    def render(self,Surf,center,player_angle):
+        rotated = pygame.transform.rotate(self.image,-player_angle/math.pi*180)
+        offset = [self.length*math.cos(player_angle)*0.45,self.length*math.sin(player_angle)*0.45]
+        Surf.blit(rotated,[center[0]-rotated.get_width()/2+offset[0],center[1]-rotated.get_height()/2+offset[1]])
+
+
+    def make_energy_ball(self,projectiles,ui,x,y,angle):
+        projectiles.append(Energy_Ball(ui,x,y,angle))
