@@ -5,18 +5,31 @@ from Utility_functions import *
 
 class Data:
     # overlay string: n = not this tile, a = any tile, t = this tile
+
+    Sounds = {'Footstep':pygame.mixer.Sound('Assets\\Audio\\Footstep.wav')}
     
 
     Legs = {'Base':{'File':'Assets\\Player_parts\\legs\\Leg.png',
-                    'Stats':{'Length':21,'Target_Distance':30,'Num_Legs':4}},
-            'Leg 2':{'File':'Assets\\Player_parts\\Legs\\Leg 2.png',
-                     'Stats':{'Length':25,'Target_Distance':35,'Num_Legs':4}}}
+                    'Stats':{'Length':21,'Target_Distance':30,'Num_Legs':4,
+                             'Move_Speed':0.3,'Move_Friction':0.85,'Turn_Speed':0.2}},
+            'Blue':{'File':'Assets\\Player_parts\\Legs\\Blue.png',
+                     'Stats':{'Length':20,'Target_Distance':30,'Num_Legs':4,
+                              'Move_Speed':0.45,'Move_Friction':0.85,'Turn_Speed':0.2}},
+            'Red':{'File':'Assets\\Player_parts\\Legs\\Red.png',
+                   'Stats':{'Length':30,'Target_Distance':45,'Num_Legs':6,
+                            'Move_Speed':0.8,'Move_Friction':0.85,'Turn_Speed':0.3}}}
 
     Bodies = {'Base':{'File':'Assets\\Player_parts\\Bodies\\Base.png',
-                      'Stats':{'Radius':15}}}
+                      'Stats':{'Radius':15}},
+              'Blue':{'File':'Assets\\Player_parts\\Bodies\\Blue.png',
+                      'Stats':{'Radius':20}},
+              'Red':{'File':'Assets\\Player_parts\\Bodies\\Red.png',
+                      'Stats':{'Radius':25}}}
 
     Weapons = {'Blaster':{'File':'Assets\\Player_parts\\Weapons\\Blaster.png',
-                          'Stats':{'Length':30,'Projectile':'Energy_Ball'}}}
+                          'Stats':{'Length':30,'Projectile':'Energy_Ball','Kick_Back':0.05,'Cooldown':10,'AutoFire':False}},
+               'Base':{'File':'Assets\\Player_parts\\Weapons\\Base.png',
+                          'Stats':{'Length':30,'Projectile':'Bullet','Kick_Back':1,'Cooldown':10,'AutoFire':False}}}
     
     def load_images():
         for leg in Data.Legs:

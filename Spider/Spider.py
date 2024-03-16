@@ -17,9 +17,9 @@ class Spider:
         self.make_legs()
         self.make_weapon()
 
-        self.move_acceleration = 0.5
-        self.move_friction = 0.85
-        self.turn_acceleration = 0.2
+        self.move_acceleration = self.legs[0].move_speed # 0.5
+        self.move_friction = self.legs[0].move_friction # 0.85
+        self.turn_acceleration = self.legs[0].turn_speed # 0.2
         self.restitution_coefficient = 0.2
 
         
@@ -35,10 +35,11 @@ class Spider:
     def render_surf(self):
         center = (self.radius*5,self.radius*5)
         Surf = pygame.Surface((self.radius*10,self.radius*10),pygame.SRCALPHA)
- 
-        self.body.render(Surf,center,self.angle)       
+
+        self.body.render(Surf,center,self.angle)  
         for leg in self.legs:
             leg.render(Surf,center,self.angle)
+
         self.weapon.render(Surf,center,self.angle)
         return Surf
 
@@ -47,12 +48,16 @@ class Spider:
 
     
     def shoot(self,projectiles):
-        self.weapon.shoot(projectiles,self.ui,self.x,self.y,self.angle)
+        kickback = self.weapon.shoot(projectiles,self.ui,self.x,self.y,self.angle)
+
+        self.velocity[0]-=kickback*math.cos(self.angle)
+        self.velocity[1]-=kickback*math.sin(self.angle)
     
     def move_spider(self,deltatime):
         for leg in self.legs:
             leg.move([self.x,self.y],self.angle,sum([l.on_ground for l in self.legs])>int(len(self.legs)/2),
                      self.velocity,self.angular_velocity)
+        self.weapon.gametick(deltatime)
 
 
 

@@ -30,7 +30,7 @@ class Projectile:
 
     def render_surf(self):
         Surf = pygame.Surface((self.radius*2,self.radius*2),pygame.SRCALPHA)
-        pygame.draw.circle(Surf,(150,60,100),(self.radius,self.radius),self.radius)
+        pygame.draw.circle(Surf,(60,60,60),(self.radius,self.radius),self.radius)
         return Surf
 
     def check_tilemap_collision(self,tilemap):
@@ -60,8 +60,16 @@ class Energy_Ball(Projectile):
         super().__init__(ui,x,y,5+random.gauss(0,0.5),[speed*math.cos(angle),speed*math.sin(angle)])
         self.finished = False
         
-    def child_gametick(self):
-        pass
+    def check_finished(self):
+        return self.finished
+    def child_on_collision(self):
+        self.finished = True
+
+class Bullet(Projectile):
+    def __init__(self,ui,x,y,angle,speed=12):
+        super().__init__(ui,x,y,5+random.gauss(0,0.2),[speed*math.cos(angle),speed*math.sin(angle)])
+        self.finished = False
+        
     def check_finished(self):
         return self.finished
     def child_on_collision(self):

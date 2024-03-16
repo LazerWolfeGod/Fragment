@@ -17,9 +17,6 @@ class Data:
             1:{'File':'Assets\\Tiles\\Cobble.png','Rect':[0,0,50,50],
                'Tile':{'atlas':[0,0],'hitbox':[]},'overlays':{}}}
 
-    Legs = {'Base':{'File':'Assets\\Player_parts\\legs\\Leg.png','Stats':{'Length':21,'Target_Distance':30,'Num_Legs':4}},
-            'Leg 2':{'File':'Assets\\Player_parts\\Legs\\Leg 2.png','Stats':{'Length':25,'Target_Distance':35,'Num_Legs':4}}}
-
     def process_tile_overlays():
         def rotate_hitbox(hitbox):
             tl,tr,bl,br = (hitbox[0],hitbox[1]),(hitbox[0]+hitbox[2],hitbox[1]),(hitbox[0]+hitbox[2],hitbox[1]+hitbox[3]),(hitbox[0],hitbox[1]+hitbox[3])
@@ -76,9 +73,5 @@ class Data:
                 Data.tile[t]['overlays'][i]['image'] = pygame.transform.scale(Data.tile[t]['overlays'][i]['base_image'],rec)
 
     
-    def load_images():
-        for leg in Data.Legs:
-            Data.Legs[leg]['Image'] = pygame.image.load(Data.Legs[leg]['File']).convert_alpha()
-Data.load_images()
 Data.resize_tiles(1)
 

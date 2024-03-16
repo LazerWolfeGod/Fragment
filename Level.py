@@ -9,7 +9,7 @@ class Level:
     def __init__(self,ui):
         self.ui = ui
 
-        self.players = [Player(ui,192,192)]
+        self.players = [Player(ui,200,200)]
         self.cameras = [Camera(self.players[0],pygame.Rect(10,10,ui.screenw-20,ui.screenh-20))]
         self.map = Map(128)
 

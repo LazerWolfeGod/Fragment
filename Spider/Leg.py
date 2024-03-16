@@ -10,6 +10,10 @@ class Leg:
         self.leg_lengths = [stats['Length']*scale,stats['Length']*scale]
         self.target_distance = stats['Target_Distance']*scale
         self.leg_start_distance = body_radius*scale*0.7
+
+        self.move_speed = stats['Move_Speed']
+        self.move_friction = stats['Move_Friction']
+        self.turn_speed = stats['Turn_Speed']
         
         self.base_angle = angle
 
@@ -92,6 +96,7 @@ class Leg:
             if complete:
                 self.on_ground = True
                 self.leg_pos_precision = 0
+                #Data.Sounds['Footstep'].play()
                 
         return skeleton
     

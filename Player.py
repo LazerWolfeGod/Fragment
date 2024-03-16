@@ -2,7 +2,6 @@ import pygame,math,random
 import PyUI as pyui
 
 from Utility_functions import *
-from Data import Data
 from Spider.Spider import Spider 
 
 class Player(Spider):
@@ -24,7 +23,7 @@ class Player(Spider):
 
         self.mpos = (0,0)
 
-        super().__init__('Base','Base','Blaster')
+        super().__init__('Blue','Blue','Base')
 
 
     def control(self,tilemap,projectiles):
@@ -34,6 +33,7 @@ class Player(Spider):
         if self.get_pressed('LEFT'): delta_vel[0]-=1
         if self.get_pressed('RIGHT'): delta_vel[0]+=1
         if delta_vel.magnitude()>0: delta_vel.normalize_ip()
+        delta_vel*=(5+math.cos(self.angle-self.angle-delta_vel.as_polar()[1]/180*math.pi))/6
         delta_vel*=self.move_acceleration*self.ui.deltatime
         
         self.velocity+=delta_vel
