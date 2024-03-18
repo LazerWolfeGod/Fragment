@@ -1,17 +1,18 @@
 import math,pygame,random
-from Particles import Abstract_Physics_Object
-from Data import Data
+from Physics_Objects.Particle import *
+from Physics_Objects.Physics_Object import Abstract_Physics_Object
+from Physics_Objects.Physics_Object_Data import Data
 
 class Projectile(Abstract_Physics_Object):
     def __init__(self,ui,x,y,speed,angle,name):
-        super().__init__(ui,x,y,speed,angle)
-        
         self.name = name
-        self.image = Data.projectiles[self.name]['Image']
         stats = Data.projectiles[self.name]['Stats']
+        super().__init__(ui,x,y,speed,angle,stats)
+        
+        self.image = Data.projectiles[self.name]['Image']
+        
         self.base_image = pygame.transform.scale(self.image,(self.image.get_width()*(stats['Width']/self.image.get_height()),stats['Width']))
         self.image = pygame.transform.rotate(self.base_image,-angle/math.pi*180)
-        self.radius = stats['Width']/2
         
     
 class Fader(Projectile):
@@ -51,7 +52,9 @@ class Fire(Projectile):
         self.finished = True
     def check_finished(self):
         return self.alpha<10 or self.finished
-    def child_gametick(self):
-        self.alpha = int(255*(self.velocity[0]**2+self.velocity[1]**2)**0.5/self.initial_speed)
+    def child_gametick(self,particles):
+        particles.append(Spark(self.ui,self.x,self.y,random.gauss(self.get_speed(),1)*0.7,
+                               self.get_angle()-math.pi+random.gauss(0,0.05)))
+        particles[-1].initial_speed = self.initial_speed
+        self.alpha = int(255*(self.get_speed()/self.initial_speed))
         
-    

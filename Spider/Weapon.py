@@ -1,6 +1,6 @@
 import pygame,math,random
 import PyUI as pyui
-from Projectile import *
+from Physics_Objects.Projectile import *
 from Utility_functions import *
 from Spider.Spider_Data import Data
 

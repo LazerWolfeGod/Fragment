@@ -2,7 +2,7 @@ from Player import Player
 from Camera import Camera
 import pygame
 
-from Map import Map
+from Environment.Map import Map
 import PyUI as pyui
 
 class Level:
@@ -25,6 +25,7 @@ class Level:
 
         for p in self.players:
             p.control(self.map.tilemap,self.projectiles)
+            p.move_spider(self.ui.deltatime)
 
         for object_list in [self.projectiles,self.particles]:
             remove_list = []

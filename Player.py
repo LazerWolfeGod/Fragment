@@ -23,7 +23,7 @@ class Player(Spider):
 
         self.mpos = (0,0)
 
-        super().__init__('Red','Red','Flamer')
+        super().__init__('Red','Base','Flamer')
 
 
     def control(self,tilemap,projectiles):
@@ -66,8 +66,6 @@ class Player(Spider):
 
         if self.get_pressed('SHOOT'):
             self.shoot(projectiles)
-
-        self.move_spider(self.ui.deltatime)
     
     def get_pressed(self,code):
         if code in self.keybinds:

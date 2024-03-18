@@ -43,8 +43,10 @@ class Spider:
         self.weapon.render(Surf,center,self.angle)
         return Surf
 
-    def get_tilemap_collision(self,tilemap):
-        return tilemap.check_collisions((self.x,self.y,self.radius))
+    def get_tilemap_collision(self,tilemap=0):
+        if tilemap != 0:
+            return tilemap.check_collisions((self.x,self.y,self.radius))
+        return False
 
     
     def shoot(self,projectiles):
