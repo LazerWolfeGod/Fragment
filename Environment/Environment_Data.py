@@ -6,32 +6,44 @@ from Utility_functions import *
 class Data:
     # overlay string: n = not this tile, a = any tile, t = this tile
     
-    tile = {2:{'File':'Assets\\Wall.png','Rect':[1,1,32,32],
-               'Tile':{'atlas':[0,0],'hitbox':[(0,0,1,1)]},
+    tile = {'None':{'File':'Assets\\Tiles\\Blank_Tile.png','Rect':[0,0,100,100],
+                    'Tile':{'atlas':[0,0],'hitbox':[]},'Layer':-100,'overlays':{}},
+            'Black_Wall':{'File':'Assets\\Tiles\\Wall.png','Rect':[1,1,32,32],
+               'Tile':{'atlas':[0,0],'hitbox':[(0,0,1,1)]},'Layer':100,
                'overlays':{'atanaaan':{'atlas':[1,0,3],'hitbox':[(0,0,1,0.3)]},
                            'atatanan':{'atlas':[2,0,3],'hitbox':[(0,0,1,0.3),(0.7,0,0.3,1)]},
                            'aaantnaa':{'atlas':[0,1,3],'hitbox':[(0.7,0.7,0.3,0.3)]},
                            'atatatat':{'atlas':[1,1,0],'hitbox':[(0,0,1,0.3),(0,0,0.3,1),(0,0.7,1,0.3),(0.7,0,0.3,1)]},
                            'anatatat':{'atlas':[2,1,3],'hitbox':[(0,0,0.3,1),(0,0.7,1,0.3),(0.7,0,0.3,1)]}}},
-            0:{'File':'Assets\\Wall_Thinner.png','Rect':[1,1,32,32],
-               'Tile':{'atlas':[0,0],'hitbox':[(0,0,1,1)]},
+            'Black_Wall_Thinner':{'File':'Assets\\Tiles\\Wall_Thinner.png','Rect':[1,1,32,32],
+               'Tile':{'atlas':[0,0],'hitbox':[(0,0,1,1)]},'Layer':99,
                'overlays':{'atanaaan':{'atlas':[1,0,3],'hitbox':[(0,0,1,0.2)]},
                            'atatanan':{'atlas':[2,0,3],'hitbox':[(0,0,1,0.2),(0.8,0,0.2,1)]},
                            'aaantnaa':{'atlas':[0,1,3],'hitbox':[(0.8,0.8,0.2,0.2)]},
                            'atatatat':{'atlas':[1,1,0],'hitbox':[(0,0,1,0.2),(0,0,0.2,1),(0,0.2,1,0.2),(0.8,0,0.2,1)]},
                            'anatatat':{'atlas':[2,1,3],'hitbox':[(0,0,0.2,1),(0,0.8,1,0.2),(0.8,0,0.2,1)]}}},
-            1:{'File':'Assets\\Tiles\\Metal.png','Rect':[0,0,100,100],
-               'Tile':{'atlas':[0,0],'hitbox':[]},'overlays':{}}}
+            'Metal_Floor':{'File':'Assets\\Tiles\\Metal_Floor.png','Rect':[0,0,100,100],
+                           'Tile':{'atlas':[0,0],'hitbox':[]},'Layer':0,'overlays':{}},
+            'Metal_Wall':{'File':'Assets\\Tiles\\Metal_Wall.png','Rect':[0,0,100,100],
+                          'Tile':{'atlas':[0,0],'hitbox':[(0,0,1,1)]},'Layer':50,
+                          'overlays':{'ataaaaaa':{'atlas':[1,0,3],'hitbox':[(0,0,1,0.15)]},
+                                      'antnaaaa':{'atlas':[2,0,3],'hitbox':[(1,0,0.15)]}}},
+            }
+
+    
 
 
     def process_tile_overlays():
         def rotate_hitbox(hitbox):
-            tl,tr,bl,br = (hitbox[0],hitbox[1]),(hitbox[0]+hitbox[2],hitbox[1]),(hitbox[0]+hitbox[2],hitbox[1]+hitbox[3]),(hitbox[0],hitbox[1]+hitbox[3])
-            rotated = [(1-tl[1],tl[0]),(1-tr[1],tr[0]),(1-bl[1],bl[0]),(1-br[1],br[0])]
-            topleft = (min([a[0] for a in rotated]),min([a[1] for a in rotated]))
-            bottomright = (max([a[0] for a in rotated]),max([a[1] for a in rotated]))
-            new_rec = (topleft[0],topleft[1],bottomright[0]-topleft[0],bottomright[1]-topleft[1])
-            return new_rec
+            if len(hitbox) == 4:
+                tl,tr,bl,br = (hitbox[0],hitbox[1]),(hitbox[0]+hitbox[2],hitbox[1]),(hitbox[0]+hitbox[2],hitbox[1]+hitbox[3]),(hitbox[0],hitbox[1]+hitbox[3])
+                rotated = [(1-tl[1],tl[0]),(1-tr[1],tr[0]),(1-bl[1],bl[0]),(1-br[1],br[0])]
+                topleft = (min([a[0] for a in rotated]),min([a[1] for a in rotated]))
+                bottomright = (max([a[0] for a in rotated]),max([a[1] for a in rotated]))
+                new_rec = (topleft[0],topleft[1],bottomright[0]-topleft[0],bottomright[1]-topleft[1])
+                return new_rec
+            else:
+               return (1-hitbox[1],hitbox[0],hitbox[2]) 
         
         for t in Data.tile:
             image = pygame.image.load(Data.tile[t]['File']).convert_alpha()
@@ -67,6 +79,9 @@ class Data:
                                             'hitbox':hitbox,
                                             'atlas':-1}
             Data.tile[t]['overlays'].update(new_overlays)
+
+            for o in Data.tile[t]['overlays']:
+                Data.tile[t]['overlays'][o]['Layer'] = Data.tile[t]['Layer']
                     
     
     def resize_tiles(scale,pixels=False):

@@ -1,4 +1,4 @@
-import pygame
+import pygame,json
 pygame.init()
 
 from Environment.Environment_Data import Data
@@ -7,36 +7,40 @@ from Utility_functions import *
 
 
 class Tile:
-    def __init__(self,num,grid_x,grid_y,cell_size):
-        self.num = num
+    def __init__(self,name,grid_x,grid_y,cell_size):
+        self.set_name(name)
         self.grid_x = grid_x
         self.grid_y = grid_y
         self.cell_size = cell_size
-        self.base_image = Data.tile[num]['Tile']['image'].copy()
-        self.hitboxes = Data.tile[num]['Tile']['hitbox'][:]
+        self.base_image = Data.tile[self.name]['Tile']['image'].copy()
+        self.hitboxes = Data.tile[self.name]['Tile']['hitbox'][:]
     def get_image(self):
         return self.image
+    def set_name(self,name):
+        self.name = name
+        self.layer = Data.tile[self.name]['Layer']
     def refresh(self,grid):
         overlay_list = []
         self.hitboxes = []
         search = [(-1,-1),(0,-1),(1,-1),(1,0),(1,1),(0,1),(-1,1),(-1,0)]
         for offset in search:
             if pygame.Rect(0,0,len(grid[0]),len(grid)).collidepoint(self.grid_x+offset[0],self.grid_y+offset[1]):
-                overlay_list.append(grid[self.grid_y+offset[1]][self.grid_x+offset[0]].num)
+                tile = grid[self.grid_y+offset[1]][self.grid_x+offset[0]]
+                overlay_list.append(tile.name)
             else:
                 overlay_list.append(-1)
-
+       
         overlays = []
         for tile in Data.tile:
-            if tile != self.num:
+            if Data.tile[tile]['Layer']>self.layer:
                 for string in Data.tile[tile]['overlays']:
                     if self.compare_overlay_list(overlay_list,string,tile):
                         overlays.append(Data.tile[tile]['overlays'][string])
-            
-
-
-        relative_hitboxes = Data.tile[self.num]['Tile']['hitbox'][:]
-        self.image = Data.tile[self.num]['Tile']['image'].copy()
+        
+        overlays.sort(key=lambda x: x['Layer']) 
+        
+        relative_hitboxes = Data.tile[self.name]['Tile']['hitbox'][:]
+        self.image = Data.tile[self.name]['Tile']['image'].copy()
         for overlay in overlays:
             relative_hitboxes+=overlay['hitbox']
             self.image.blit(overlay['image'],(0,0))
@@ -45,15 +49,8 @@ class Tile:
         startx = self.grid_x*self.cell_size
         starty = self.grid_y*self.cell_size
         for hitbox in relative_hitboxes:
-            self.hitboxes.append((startx+hitbox[0]*self.cell_size,
-                                  starty+hitbox[1]*self.cell_size,
-                                  hitbox[2]*self.cell_size,
-                                  hitbox[3]*self.cell_size))
-##            pygame.draw.rect(self.image,(255,0,0),pygame.Rect(hitbox[0]*self.cell_size,
-##                                                              hitbox[1]*self.cell_size,
-##                                                              hitbox[2]*self.cell_size,
-##                                                              hitbox[3]*self.cell_size))
-            
+            if len(hitbox) == 4: self.hitboxes.append((startx+hitbox[0]*self.cell_size,starty+hitbox[1]*self.cell_size,hitbox[2]*self.cell_size,hitbox[3]*self.cell_size))
+            else: self.hitboxes.append((startx+hitbox[0]*self.cell_size,starty+hitbox[1]*self.cell_size,hitbox[2]*self.cell_size))
             
     def compare_overlay_list(self,overlay_list,overlay_string,tile):
         for i in range(len(overlay_list)):
@@ -73,16 +70,8 @@ class Tile:
     
 class TileMap:
     def __init__(self,grid,cell_size):
-        # 0 = wall tile
-        # 1 = floor tile
-        # . 
-        #
-        self.tiles = {1:{'File':'Assets\\Tilemap.png','Spacing':[1,1,32,32],'tilekey':
-                               {'........':[0,0],
-                                '*1*0*0*0':[0,1],'*0*1*0*0':[1,1],'*0*0*1*0':[2,1],'*0*0*0*1':[3,1],
-                                '*1*1*0*0':[0,2],'*0*1*1*0':[1,2],'*0*0*1*1':[2,2],'*1*0*0*1':[3,2],
-                                '*010*0*0':[0,3],'*0*010*0':[1,3],'*0*0*010':[2,3],'10*0*0*0':[3,3]}}}
-
+        self.x = 0
+        self.y = 0
         self.grid_h = len(grid)
         self.grid_w = len(grid[0])
         self.cell_size = cell_size
@@ -101,10 +90,6 @@ class TileMap:
             for x in range(self.grid_w):
                 Surf.blit(self.grid[y][x].get_image(),(x*self.cell_size,y*self.cell_size))
         return Surf
-    def refresh(self):
-        for y in self.grid:
-            for x in y:
-                x.refresh(self.grid)
                 
     def check_collisions(self,obj):
         if len(obj) == 3:
@@ -116,7 +101,7 @@ class TileMap:
         
         for y in range(top_left[1],bottom_right[1]+1):
             for x in range(top_left[0],bottom_right[0]+1):
-                if self.grid[y][x].get_collide(obj):
+                if self.check_in_grid((x,y)) and self.grid[y][x].get_collide(obj):
                     return True
         return False
     def world_pos_to_grid_pos(self,pos):
@@ -130,28 +115,63 @@ class TileMap:
     def get_height(self):
         return self.grid_h
 
-    def set_tile(self,x_pos,y_pos,tile_num):
-        self.grid[y_pos][x_pos].num = tile_num
-        self.grid[y_pos][x_pos].refresh()
+    def set_tile(self,x_pos,y_pos,tile_name):
+        if self.check_in_grid((x_pos,y_pos)):
+            self.grid[y_pos][x_pos].set_name(tile_name)
+            for y in range(y_pos-1,y_pos+2):
+                for x in range(x_pos-1,x_pos+2):
+                    if self.check_in_grid((x,y)):
+                        self.grid[y][x].refresh(self.grid)
+        else:
+            self.extend_grid(x_pos,y_pos)
+    def extend_grid(self,x,y):
+        self.default_tile = 'Metal_Wall'
+        if x<0:
+            for a in range(abs(x)):
+                for b in self.grid:
+                    b.insert(0,Tile(self.default_tile,0,0,self.cell_size))
+                self.x-=self.cell_size
+                self.grid_w+=1
+        elif x>=self.grid_w:
+            for a in range(x-self.grid_w+1):
+                for b in self.grid:
+                    b.append(Tile(self.default_tile,0,0,self.cell_size))
+                self.grid_w+=1
+        if y<0:
+            for a in range(abs(y)):
+                self.grid.insert(0,[Tile(self.default_tile,0,0,self.cell_size) for a in range(self.grid_w)])
+                self.y-=self.cell_size
+        elif y>=self.grid_h:
+            for a in range(y-self.grid_h+1):
+                self.grid.append([Tile(self.default_tile,0,0,self.cell_size) for a in range(self.grid_w)])
+        self.refresh()
+    def refresh(self):
+        self.refresh_grid_poses()
+        self.refresh_tiles()
+    def refresh_grid_poses(self):
+        for y,row in enumerate(self.grid):
+            for x,tile in enumerate(row):
+                tile.grid_x = x
+                tile.grid_y = y
+        self.grid_h = len(self.grid)
+        self.grid_w = len(self.grid[0])
+    def refresh_tiles(self):
+        for y in self.grid:
+            for x in y:
+                x.refresh(self.grid)
+                    
+                    
         
         
 
 class Map:
-    def __init__(self,cell_size=32):
+    def __init__(self,cell_size=32,map_name=''):
         Data.resize_tiles(cell_size,True)
         self.cell_size = cell_size
-        
-        grid = [[0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,1,1,0,1,1,1,0,0,0,0,0,0,1,0,0,1,1,1,1,1,0,0],
-                [0,1,1,1,1,0,1,0,1,1,1,0,0,0,1,0,1,1,1,1,1,0,0],
-                [0,1,0,1,0,1,1,0,1,1,1,1,0,0,0,0,1,1,1,1,1,0,0],
-                [0,1,1,1,0,1,1,1,1,0,0,1,0,0,0,0,1,1,1,1,1,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,1,0,0],
-                [0,1,1,1,0,0,1,1,1,0,1,1,1,1,0,0,0,0,0,0,1,0,0],
-                [0,1,0,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,0,0],
-                [0,1,1,0,1,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,1,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
-        self.tilemap = TileMap(grid,cell_size)
+
+        self.map_name = map_name
+        self.load_map(map_name)
+        self.tilemap = TileMap(self.grid,cell_size)
         
     def render_surf(self):
         Surf = pygame.Surface((self.tilemap.grid_w*self.cell_size,
@@ -159,6 +179,30 @@ class Map:
         Surf = self.tilemap.render(Surf)
 
         return Surf
+    def get_grid(self):
+        self.grid = []
+        for y in self.tilemap.grid:
+            self.grid.append([])
+            for x in y:
+                self.grid[-1].append(x.name)
+##    def push_grid(self):
+##        for y in range(len(self.grid)):
+##            for x in range(len(self.grid[0])):
+##                self.tilemap.grid[y][x].set_name(self.grid[y][x])
+##        self.tilemap.refresh()
+    def save_map(self,name):
+        self.get_grid()
+        with open(resourcepath('Maps\\'+name+'.json'),'w') as f:
+            json.dump(self.grid,f)
+    def load_map(self,name):
+        if name == '':
+            self.grid = [['Metal_Floor']]
+        else:
+            if not '.json' in name:
+                name  = resourcepath('Maps\\'+name+'.json')
+            with open(name,'r') as f:
+                self.grid = json.load(f)
+            self.tilemap = TileMap(self.grid,self.cell_size)
 
 
 

@@ -23,7 +23,7 @@ class Player(Spider):
 
         self.mpos = (0,0)
 
-        super().__init__('Red','Base','Flamer')
+        super().__init__('Red','Red','Flamer')
 
 
     def control(self,tilemap,projectiles):
@@ -33,7 +33,7 @@ class Player(Spider):
         if self.get_pressed('LEFT'): delta_vel[0]-=1
         if self.get_pressed('RIGHT'): delta_vel[0]+=1
         if delta_vel.magnitude()>0: delta_vel.normalize_ip()
-        delta_vel*=(5+math.cos(self.angle-self.angle-delta_vel.as_polar()[1]/180*math.pi))/6
+        delta_vel*=(5+math.cos(self.angle-delta_vel.as_polar()[1]/180*math.pi))/6
         delta_vel*=self.move_acceleration*self.ui.deltatime
         
         self.velocity+=delta_vel

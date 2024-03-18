@@ -10,14 +10,18 @@ class Data:
     
 
     Legs = {'Base':{'File':'Assets\\Player_parts\\legs\\Leg.png',
-                    'Stats':{'Length':21,'Target_Distance':30,'Num_Legs':4,
+                    'Stats':{'Length':21,'Target_Distance':30,'Num_Legs':20,
                              'Move_Speed':0.3,'Move_Friction':0.85,'Turn_Speed':0.2}},
             'Blue':{'File':'Assets\\Player_parts\\Legs\\Blue.png',
                      'Stats':{'Length':20,'Target_Distance':30,'Num_Legs':4,
                               'Move_Speed':0.45,'Move_Friction':0.85,'Turn_Speed':0.2}},
             'Red':{'File':'Assets\\Player_parts\\Legs\\Red.png',
                    'Stats':{'Length':30,'Target_Distance':45,'Num_Legs':6,
-                            'Move_Speed':0.8,'Move_Friction':0.85,'Turn_Speed':0.3}}}
+                            'Move_Speed':0.8,'Move_Friction':0.85,'Turn_Speed':0.3}},
+            'Green':{'File':'Assets\\Player_parts\\Legs\\Green.png',
+                   'Stats':{'Length':80,'Target_Distance':100,'Num_Legs':8,
+                            'Move_Speed':0.8,'Move_Friction':0.85,'Turn_Speed':0.3}},
+            }
 
     Bodies = {'Base':{'File':'Assets\\Player_parts\\Bodies\\Base.png',
                       'Stats':{'Radius':15}},
@@ -26,7 +30,10 @@ class Data:
               'Red':{'File':'Assets\\Player_parts\\Bodies\\Red.png',
                       'Stats':{'Radius':25}},
               'Four':{'File':'Assets\\Player_parts\\Bodies\\4.png',
-                      'Stats':{'Radius':30}}}
+                      'Stats':{'Radius':30}},
+              'Green':{'File':'Assets\\Player_parts\\Bodies\\Green.png',
+                      'Stats':{'Radius':64}},
+              }
 
     Weapons = {'Blaster':{'File':'Assets\\Player_parts\\Weapons\\Blaster.png',
                           'Stats':{'Length':30,'Projectile':'Energy_Ball','Kick_Back':0.05,'Cooldown':20,'AutoFire':False,

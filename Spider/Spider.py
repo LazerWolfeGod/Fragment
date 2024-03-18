@@ -33,8 +33,8 @@ class Spider:
         self.weapon = Weapon(self.weapon_name)
     
     def render_surf(self):
-        center = (self.radius*5,self.radius*5)
-        Surf = pygame.Surface((self.radius*10,self.radius*10),pygame.SRCALPHA)
+        center = (self.radius*20,self.radius*20)
+        Surf = pygame.Surface((self.radius*40,self.radius*40),pygame.SRCALPHA)
 
         self.body.render(Surf,center,self.angle)  
         for leg in self.legs:
