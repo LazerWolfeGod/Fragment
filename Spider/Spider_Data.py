@@ -27,9 +27,14 @@ class Data:
                       'Stats':{'Radius':25}}}
 
     Weapons = {'Blaster':{'File':'Assets\\Player_parts\\Weapons\\Blaster.png',
-                          'Stats':{'Length':30,'Projectile':'Energy_Ball','Kick_Back':0.05,'Cooldown':10,'AutoFire':False}},
+                          'Stats':{'Length':30,'Projectile':'Energy_Ball','Kick_Back':0.05,'Cooldown':20,'AutoFire':False,
+                                   'Damage':3,'Accuracy':0.05,'Velocity':12}},
                'Base':{'File':'Assets\\Player_parts\\Weapons\\Base.png',
-                          'Stats':{'Length':30,'Projectile':'Bullet','Kick_Back':1,'Cooldown':10,'AutoFire':False}}}
+                          'Stats':{'Length':30,'Projectile':'Bullet','Kick_Back':1,'Cooldown':10,'AutoFire':False,
+                                   'Damage':1,'Accuracy':0.1,'Velocity':10}},
+               'Flamer':{'File':'Assets\\Player_parts\\Weapons\\Flamer.png',
+                         'Stats':{'Length':50,'Projectile':'Fire','Kick_Back':0.1,'Cooldown':0,'AutoFire':True,
+                                  'Damage':1,'Accuracy':0.3,'Velocity':10}}}
     
     def load_images():
         for leg in Data.Legs:

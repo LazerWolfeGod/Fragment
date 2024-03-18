@@ -14,10 +14,14 @@ class Weapon:
         self.kick_back = stats['Kick_Back']
         self.cooldown = stats['Cooldown']
         self.autofire = stats['AutoFire']
+        self.damage = stats['Damage']
+        self.accuracy = stats['Accuracy']
+        self.shot_velocity = stats['Velocity']
         
         
         self.projectile_dict = {'Energy_Ball':self.make_energy_ball,
-                                'Bullet':self.make_bullet}
+                                'Bullet':self.make_bullet,
+                                'Fire':self.make_fire}
 
         self.make_projectile = self.projectile_dict[self.projectile_type]
 
@@ -30,7 +34,9 @@ class Weapon:
     def shoot(self,projectiles,ui,x,y,angle):
         if self.cooldown_tracker<0:
             self.cooldown_tracker = self.cooldown
-            self.make_projectile(projectiles,ui,x,y,angle)
+            dis = 1*self.length
+            self.make_projectile(projectiles,ui,x+math.cos(angle)*dis,
+                                 y+math.sin(angle)*dis,random.gauss(angle,self.accuracy))
             return self.kick_back
         return 0
     
@@ -47,3 +53,5 @@ class Weapon:
         projectiles.append(Energy_Ball(ui,x,y,angle))
     def make_bullet(self,projectiles,ui,x,y,angle):
         projectiles.append(Bullet(ui,x,y,angle))
+    def make_fire(self,projectiles,ui,x,y,angle):
+        projectiles.append(Fire(ui,x,y,angle))

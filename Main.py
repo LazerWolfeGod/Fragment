@@ -14,7 +14,7 @@ from Level import Level
 
 
 game = Level(ui)
-    
+
 
 while not done:
     for event in ui.loadtickdata():

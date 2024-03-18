@@ -14,8 +14,9 @@ class Data:
                            'aaantnaa':{'atlas':[0,1,3],'hitbox':[(0.7,0.7,0.3,0.3)]},
                            'atatatat':{'atlas':[1,1,0],'hitbox':[(0,0,1,0.3),(0,0,0.3,1),(0,0.7,1,0.3),(0.7,0,0.3,1)]},
                            'anatatat':{'atlas':[2,1,3],'hitbox':[(0,0,0.3,1),(0,0.7,1,0.3),(0.7,0,0.3,1)]}}},
-            1:{'File':'Assets\\Tiles\\Cobble.png','Rect':[0,0,50,50],
+            1:{'File':'Assets\\Tiles\\Metal.png','Rect':[0,0,100,100],
                'Tile':{'atlas':[0,0],'hitbox':[]},'overlays':{}}}
+
 
     def process_tile_overlays():
         def rotate_hitbox(hitbox):
@@ -72,6 +73,6 @@ class Data:
             for i in Data.tile[t]['overlays']:
                 Data.tile[t]['overlays'][i]['image'] = pygame.transform.scale(Data.tile[t]['overlays'][i]['base_image'],rec)
 
-    
+
 Data.resize_tiles(1)
 

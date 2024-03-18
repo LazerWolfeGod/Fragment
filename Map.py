@@ -115,8 +115,8 @@ class TileMap:
             top_left = self.world_pos_to_grid_pos((obj[0],obj[1]))
             bottom_right = self.world_pos_to_grid_pos((obj[0]+obj[2],obj[1]+obj[3]))
         
-        for y in range(top_left[1]-1,bottom_right[1]+2):
-            for x in range(top_left[0]-1,bottom_right[0]+2):
+        for y in range(top_left[1],bottom_right[1]+1):
+            for x in range(top_left[0],bottom_right[0]+1):
                 if self.grid[y][x].get_collide(obj):
                     return True
         return False

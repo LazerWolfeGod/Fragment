@@ -14,21 +14,23 @@ class Level:
         self.map = Map(128)
 
         self.projectiles = []
+        self.particles = []
         
     def game_tick(self,screen):
         screen.fill(pyui.Style.wallpapercol)
 
         for c in self.cameras:
             c.move()
-            c.render(screen,self.map,self.players,self.projectiles)
+            c.render(screen,self.map,self.players,self.projectiles,self.particles)
 
         for p in self.players:
             p.control(self.map.tilemap,self.projectiles)
 
-        remove_list = []
-        for p in self.projectiles:
-            p.move(self.map.tilemap)
-            if p.check_finished():
-                remove_list.append(p)
-        for rem in remove_list:
-            self.projectiles.remove(rem)
+        for object_list in [self.projectiles,self.particles]:
+            remove_list = []
+            for p in object_list:
+                p.move(self.map.tilemap,self.particles)
+                if p.check_finished():
+                    remove_list.append(p)
+            for rem in remove_list:
+                object_list.remove(rem)
