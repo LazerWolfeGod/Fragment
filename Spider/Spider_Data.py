@@ -19,8 +19,8 @@ class Data:
                    'Stats':{'Length':30,'Target_Distance':45,'Num_Legs':6,
                             'Move_Speed':0.8,'Move_Friction':0.85,'Turn_Speed':0.3}},
             'Green':{'File':'Assets\\Player_parts\\Legs\\Green.png',
-                   'Stats':{'Length':80,'Target_Distance':100,'Num_Legs':8,
-                            'Move_Speed':0.8,'Move_Friction':0.85,'Turn_Speed':0.3}},
+                   'Stats':{'Length':80,'Target_Distance':140,'Num_Legs':8,
+                            'Move_Speed':0.8,'Move_Friction':0.85,'Turn_Speed':0.15}},
             }
 
     Bodies = {'Base':{'File':'Assets\\Player_parts\\Bodies\\Base.png',

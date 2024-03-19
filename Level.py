@@ -25,7 +25,7 @@ class Level:
 
         for p in self.players:
             p.control(self.map.tilemap,self.projectiles)
-            p.move_spider(self.ui.deltatime)
+            p.move_spider(self.map.tilemap,self.ui.deltatime)
 
         for object_list in [self.projectiles,self.particles]:
             remove_list = []

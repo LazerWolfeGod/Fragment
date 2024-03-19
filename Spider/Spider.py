@@ -55,9 +55,11 @@ class Spider:
         self.velocity[0]-=kickback*math.cos(self.angle)
         self.velocity[1]-=kickback*math.sin(self.angle)
     
-    def move_spider(self,deltatime):
-        for leg in self.legs:
-            leg.move([self.x,self.y],self.angle,sum([l.on_ground for l in self.legs])>int(len(self.legs)/2),
+    def move_spider(self,tilemap,deltatime):
+        for i,leg in enumerate(self.legs):
+            on_ground = [l.on_ground for l in self.legs]
+            can_lift = sum(on_ground)>int(len(self.legs)/2) and (self.legs[(i-1)%len(self.legs)].on_ground) and (self.legs[(i+1)%len(self.legs)].on_ground)
+            leg.move([self.x,self.y],self.angle,tilemap,can_lift,
                      self.velocity,self.angular_velocity)
         self.weapon.gametick(deltatime)
 
