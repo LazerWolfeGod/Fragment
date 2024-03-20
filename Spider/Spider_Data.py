@@ -7,20 +7,28 @@ class Data:
     # overlay string: n = not this tile, a = any tile, t = this tile
 
     Sounds = {'Footstep':pygame.mixer.Sound('Assets\\Audio\\Footstep.wav')}
-    
+
+    Leg_default_stats = {'Length':30,'Target_Distance':45,'Num_Legs':4,
+                         'Move_Speed':0.3,'Move_Friction':0.85,'Turn_Speed':0.2,
+                         'Joint_Rotate_Speed':0.3,'Forward_Value':1,
+                         'Lift_Up_Distance_Max':0.6,'Lift_Up_Distance_Min':0.3,
+                         'Prediction_Magnitude_Velocity':8,'Prediction_Magnitude_Angle':8}
 
     Legs = {'Base':{'File':'Assets\\Player_parts\\legs\\Leg.png',
-                    'Stats':{'Length':21,'Target_Distance':30,'Num_Legs':20,
-                             'Move_Speed':0.3,'Move_Friction':0.85,'Turn_Speed':0.2}},
+                    'Stats':{'Length':21,'Target_Distance':30,'Num_Legs':4,'Move_Speed':0.3,'Turn_Speed':0.2}},
+            
             'Blue':{'File':'Assets\\Player_parts\\Legs\\Blue.png',
-                     'Stats':{'Length':20,'Target_Distance':30,'Num_Legs':4,
-                              'Move_Speed':0.45,'Move_Friction':0.85,'Turn_Speed':0.2}},
+                     'Stats':{'Length':20,'Target_Distance':30,'Num_Legs':4,'Move_Speed':0.45,'Turn_Speed':0.15}},
+            
             'Red':{'File':'Assets\\Player_parts\\Legs\\Red.png',
                    'Stats':{'Length':30,'Target_Distance':45,'Num_Legs':6,
-                            'Move_Speed':0.8,'Move_Friction':0.85,'Turn_Speed':0.3}},
+                            'Move_Speed':0.8,'Turn_Speed':0.2,
+                            'Forward_Value':0.95,'Prediction_Magnitude_Velocity':6}},
+            
             'Green':{'File':'Assets\\Player_parts\\Legs\\Green.png',
                    'Stats':{'Length':80,'Target_Distance':140,'Num_Legs':8,
-                            'Move_Speed':0.8,'Move_Friction':0.85,'Turn_Speed':0.15}},
+                            'Move_Speed':0.8,'Move_Friction':0.85,'Turn_Speed':0.05,
+                            'Joint_Rotate_Speed':0.1,'Foward_Value':0.97}},
             }
 
     Bodies = {'Base':{'File':'Assets\\Player_parts\\Bodies\\Base.png',
@@ -46,7 +54,18 @@ class Data:
                                   'Damage':1,'Accuracy':0.3,'Velocity':10}},
                'Mini_Gun':{'File':'Assets\\Player_parts\\Weapons\\Mini_Gun.png',
                            'Stats':{'Length':45,'Projectile':'Bullet','Kick_Back':0.4,'Cooldown':0,'AutoFire':True,
-                                  'Damage':1,'Accuracy':0.2,'Velocity':15}}}
+                                  'Damage':1,'Accuracy':0.2,'Velocity':15}},
+               'Laser':{'File':'Assets\\Player_parts\\Weapons\\Laser.png',
+                           'Stats':{'Length':45,'Projectile':'Laser','Kick_Back':0.4,'Cooldown':0,'AutoFire':True,
+                                  'Damage':1,'Accuracy':0,'Velocity':33}},
+               }
+
+
+    for leg in Legs:
+        for s in Leg_default_stats:
+            if not s in Legs[leg]['Stats']:
+                Legs[leg]['Stats'][s] = Leg_default_stats[s]
+        
     
     def load_images():
         for leg in Data.Legs:

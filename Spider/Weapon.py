@@ -19,11 +19,12 @@ class Weapon:
         self.shot_velocity = stats['Velocity']
         
         
-        self.projectile_dict = {'Energy_Ball':self.make_energy_ball,
-                                'Bullet':self.make_bullet,
-                                'Fire':self.make_fire}
+        self.projectile_dict = {'Energy_Ball':Energy_Ball,
+                                'Bullet':Bullet,
+                                'Fire':Fire,
+                                'Laser':Laser}
 
-        self.make_projectile = self.projectile_dict[self.projectile_type]
+        self.projectile_obj = self.projectile_dict[self.projectile_type]
 
         self.cooldown_tracker = 0
 
@@ -31,12 +32,14 @@ class Weapon:
         self.image = pygame.transform.scale_by(self.image,(self.length)/(self.image.get_width()-self.image.get_height()))
 
 
-    def shoot(self,projectiles,ui,x,y,angle):
+    def shoot(self,projectiles,ui,x,y,angle,vel):
         if self.cooldown_tracker<0:
             self.cooldown_tracker = self.cooldown
             dis = 1*self.length
-            self.make_projectile(projectiles,ui,x+math.cos(angle)*dis,
-                                 y+math.sin(angle)*dis,random.gauss(angle,self.accuracy))
+            player_speed_component = ((vel[0]*math.cos(angle))**2+(vel[1]*math.sin(angle))**2)**0.5
+            projectiles.append(self.projectile_obj(ui,x+math.cos(angle)*dis,
+                                 y+math.sin(angle)*dis,random.gauss(angle,self.accuracy),
+                                 self.shot_velocity-player_speed_component))
             return self.kick_back
         return 0
     
@@ -49,9 +52,11 @@ class Weapon:
     def gametick(self,deltatime):
         self.cooldown_tracker-=deltatime
         
-    def make_energy_ball(self,projectiles,ui,x,y,angle):
-        projectiles.append(Energy_Ball(ui,x,y,angle))
-    def make_bullet(self,projectiles,ui,x,y,angle):
-        projectiles.append(Bullet(ui,x,y,angle))
-    def make_fire(self,projectiles,ui,x,y,angle):
-        projectiles.append(Fire(ui,x,y,angle))
+##    def make_energy_ball(self,projectiles,ui,x,y,angle,speed):
+##        projectiles.append(Energy_Ball(ui,x,y,angle),speed)
+##    def make_bullet(self,projectiles,ui,x,y,angle):
+##        projectiles.append(Bullet(ui,x,y,angle))
+##    def make_fire(self,projectiles,ui,x,y,angle):
+##        projectiles.append(Fire(ui,x,y,angle))
+##    def make_laser(self,projectiles,ui,x,y,angle):
+##        projectiles.append(Laser(ui,x,y,angle))

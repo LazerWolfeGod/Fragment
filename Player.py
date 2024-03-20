@@ -23,7 +23,7 @@ class Player(Spider):
 
         self.mpos = (0,0)
 
-        super().__init__('Green','Green','Flamer')
+        super().__init__('Green','Green','Laser')
 
 
     def control(self,tilemap,projectiles):

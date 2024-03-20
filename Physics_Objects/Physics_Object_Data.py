@@ -13,10 +13,16 @@ class Data:
                    'Energy_Ball':{'File':'Assets\\Projectiles\\Energy_Ball.png',
                                   'Stats':{'Width':12}},
                    'Fire':{'File':'Assets\\Projectiles\\Fire.png',
-                           'Stats':{'Width':12,'Restitution':0.2,'Drag':0.98,'Collision_Limit':1}}}
+                           'Stats':{'Width':12,'Restitution':0.2,'Drag':0.98,'Collision_Limit':1}},
+                   'Laser':{'File':'Assets\\Projectiles\\Laser.png',
+                           'Stats':{'Width':8,'Restitution':1,'Drag':0.999,'Collision_Limit':3}},
+                   }
 
     particles = {'Spark':{'File':'Assets\\Particles\\Spark.png',
-                          'Stats':{'Width':10,'Restitution':1,'Drag':0.9}}}
+                          'Stats':{'Width':10,'Restitution':1,'Drag':0.9}},
+                 'Laser_Dust':{'File':'Assets\\Particles\\Laser_Dust.png',
+                          'Stats':{'Width':10,'Drag':0.9}},
+                 }
     
     def load_images():
         for p in Data.projectiles:

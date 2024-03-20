@@ -21,6 +21,14 @@ class Spark(Particle):
         self.alpha = int(255*(self.get_speed()/self.initial_speed))
     def check_finished(self):
         return self.alpha < 40
+
+class Laser_Dust(Particle):
+    def __init__(self,ui,x,y,speed,angle):
+        super().__init__(ui,x,y,speed,angle,'Laser_Dust')
+    def child_gametick(self,_):
+        self.alpha = int(150*(self.get_speed()/self.initial_speed))
+    def check_finished(self):
+        return self.alpha < 40
         
 
 

@@ -25,7 +25,7 @@ class Spider:
         
     def make_legs(self):
         self.num_legs = Data.Legs[self.leg_name]['Stats']['Num_Legs']
-        self.legs = [Leg([self.x,self.y],self.angle,theta/self.num_legs*math.tau+math.pi/self.num_legs,
+        self.legs = [Leg([self.x,self.y],self.angle,(theta/self.num_legs*math.tau-math.pi+math.pi/self.num_legs),
                          self.leg_name,self.radius,1) for theta in range(self.num_legs)]
     def make_body(self):
         self.body = Body(self.body_name)
@@ -50,7 +50,7 @@ class Spider:
 
     
     def shoot(self,projectiles):
-        kickback = self.weapon.shoot(projectiles,self.ui,self.x,self.y,self.angle)
+        kickback = self.weapon.shoot(projectiles,self.ui,self.x,self.y,self.angle,self.velocity)
 
         self.velocity[0]-=kickback*math.cos(self.angle)
         self.velocity[1]-=kickback*math.sin(self.angle)

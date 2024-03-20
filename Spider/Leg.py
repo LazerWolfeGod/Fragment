@@ -14,8 +14,13 @@ class Leg:
         self.move_speed = stats['Move_Speed']
         self.move_friction = stats['Move_Friction']
         self.turn_speed = stats['Turn_Speed']
+        self.joint_rotate_speed = stats['Joint_Rotate_Speed']
+        self.lift_up_distance_max = stats['Lift_Up_Distance_Max']
+        self.lift_up_distance_min = stats['Lift_Up_Distance_Min']
+        self.prediction_magnitude_velocity = stats['Prediction_Magnitude_Velocity']
+        self.prediction_magnitude_angle = stats['Prediction_Magnitude_Angle']
         
-        self.base_angle = angle
+        self.base_angle = angle*stats['Forward_Value']
 
         self.on_ground = True
         self.leg_pos_precision = 0
@@ -31,22 +36,21 @@ class Leg:
         self.rotated_images = [pygame.transform.rotate(self.image,angle) for angle in range(360)]
         
     def get_ground_target(self,player_angle,player_velocity=[0,0],player_angular_velocity=0):
-        self.predicition_magnitude = 8
-        angle = player_angle+self.base_angle+player_angular_velocity*self.predicition_magnitude
-        return [self.start_pos[0]+player_velocity[0]*self.predicition_magnitude+(self.target_distance)*math.cos(angle),
-                self.start_pos[1]+player_velocity[1]*self.predicition_magnitude+(self.target_distance)*math.sin(angle)]
+        angle = player_angle+self.base_angle+player_angular_velocity*self.prediction_magnitude_angle
+        return [self.start_pos[0]+player_velocity[0]*self.prediction_magnitude_velocity+(self.target_distance)*math.cos(angle),
+                self.start_pos[1]+player_velocity[1]*self.prediction_magnitude_velocity+(self.target_distance)*math.sin(angle)]
 
     def move(self,player_pos,player_angle,tilemap=-1,can_lift_up=True,player_velocity=[0,0],player_angular_velocity=0):
         self.start_pos = self.get_start_pos(player_pos,player_angle)
         
-        if can_lift_up and distance(self.get_ground_target(player_angle),self.ground_target)>self.target_distance*max(math.e**-self.leg_pos_precision,0.3): #distance(self.start_pos,self.ground_target)*1.2>sum(self.leg_lengths) or 
+        if can_lift_up and distance(self.get_ground_target(player_angle),self.ground_target)>self.target_distance*max(math.e**-self.leg_pos_precision,self.lift_up_distance_min): #distance(self.start_pos,self.ground_target)*1.2>sum(self.leg_lengths) or 
             self.ground_target = self.get_ground_target(player_angle,player_velocity,player_angular_velocity)
             self.on_ground = False
         
         if self.on_ground:
             self.skeleton = self.inverse_kinematics(self.ground_target,tilemap)
         else:
-            self.skeleton = self.inverse_kinematics(self.ground_target,tilemap,0.3)
+            self.skeleton = self.inverse_kinematics(self.ground_target,tilemap,self.joint_rotate_speed)
 
         self.leg_pos_precision += 0.1
         
@@ -86,22 +90,29 @@ class Leg:
             complete = True
             pos = self.start_pos
             for i,skel in enumerate(skeleton):
-##                pos = [pos[0]+math.cos(),pos[1]]
                 prev_angle = prev_angles[i]
                 target_angle = skel[1]
+
                 
                 if (prev_angle-target_angle)%math.tau<(target_angle-prev_angle)%math.tau:
                     skeleton[i][1] = prev_angle-min(angle_limit,(prev_angle-target_angle)%math.tau)
                 else:
                     skeleton[i][1] = prev_angle+min(angle_limit,(target_angle-prev_angle)%math.tau)
+                    
 ##                if tilemap != -1:
-##                    if tilemap.check_collisions(())
+##                    circle = (pos[0]+skeleton[i][0]*math.cos(skeleton[i][1]),
+##                              pos[1]+skeleton[i][0]*math.sin(skeleton[i][1]),4)
+##                    if tilemap.check_collisions(circle):
+##                        print(i,'collided',skeleton)
+##                        skeleton[i][1] = prev_angle
+##                    pos = (pos[0]+skeleton[i][0]*math.cos(skeleton[i][1]),
+##                           pos[1]+skeleton[i][0]*math.sin(skeleton[i][1]))
                 
                 if abs(skeleton[i][1]-target_angle)%math.tau>0.1:
                     complete = False
             if complete:
                 self.on_ground = True
-                self.leg_pos_precision = 0
+                self.leg_pos_precision = -math.log(self.lift_up_distance_max)
                 #Data.Sounds['Footstep'].play()
                 
         return skeleton

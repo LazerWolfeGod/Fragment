@@ -85,10 +85,14 @@ class TileMap:
 
         self.marked_hitbox = []
         
-    def render(self,Surf):
-        for y in range(self.grid_h):
-            for x in range(self.grid_w):
-                Surf.blit(self.grid[y][x].get_image(),(x*self.cell_size,y*self.cell_size))
+    def render(self,Surf,subsurf_rect):
+        min_x = max(subsurf_rect.x//self.cell_size,0)
+        min_y = max(subsurf_rect.y//self.cell_size,0)
+        max_x = min((subsurf_rect.x+subsurf_rect.w)//self.cell_size,self.grid_w-1)
+        max_y = min((subsurf_rect.y+subsurf_rect.h)//self.cell_size,self.grid_h-1)
+        for y in range(min_y,max_y+1):
+            for x in range(min_x,max_x+1):
+                Surf.blit(self.grid[y][x].get_image(),(x*self.cell_size-subsurf_rect.x,y*self.cell_size-subsurf_rect.y))
         return Surf
                 
     def check_collisions(self,obj):
@@ -173,10 +177,9 @@ class Map:
         self.load_map(map_name)
         self.tilemap = TileMap(self.grid,cell_size)
         
-    def render_surf(self):
-        Surf = pygame.Surface((self.tilemap.grid_w*self.cell_size,
-                               self.tilemap.grid_h*self.cell_size))
-        Surf = self.tilemap.render(Surf)
+    def render_surf(self,subsurf_rect):
+        Surf = pygame.Surface((subsurf_rect.w,subsurf_rect.h))
+        Surf = self.tilemap.render(Surf,subsurf_rect)
 
         return Surf
     def get_grid(self):
@@ -185,11 +188,6 @@ class Map:
             self.grid.append([])
             for x in y:
                 self.grid[-1].append(x.name)
-##    def push_grid(self):
-##        for y in range(len(self.grid)):
-##            for x in range(len(self.grid[0])):
-##                self.tilemap.grid[y][x].set_name(self.grid[y][x])
-##        self.tilemap.refresh()
     def save_map(self,name):
         self.get_grid()
         with open(resourcepath('Maps\\'+name+'.json'),'w') as f:

@@ -34,9 +34,9 @@ def rect_rect_collide(rec1,rec2):
 def circle_circle_collide(circle1,circle2):
     return distance([circle1[0],circle1[1]],[circle2[0],circle2[1]])<circle1[2]+circle2[2]
 
-def list_list_collide(lis1,lis2,return_index=False):
+def list_list_collide(lis1,lis2):
     for i in lis1:
-        if list_obj_collide(lis2,i,return_index):
+        if list_obj_collide(lis2,i):
             return True
     return False
 
@@ -47,7 +47,6 @@ def list_obj_collide(lis,obj):
                 if circle_circle_collide(obj,j): return True
             else:
                 if rect_circle_collide(j,obj):
-##                    print(obj,'collided with',j)
                     return True
     else:
         for j in lis:

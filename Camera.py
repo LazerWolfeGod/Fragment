@@ -16,25 +16,19 @@ class Camera:
         Surf = pygame.Surface((self.display_rect.w,self.display_rect.h))
         Surf.fill((40,40,40))
 
-        map_surf = mapp.render_surf()
-        Surf.blit(map_surf,self.transform(mapp.tilemap.x,mapp.tilemap.y))
+        transformed = self.transform(mapp.tilemap.x,mapp.tilemap.y)
+        subsurf_rect = pygame.Rect(-transformed[0],-transformed[1],self.display_rect.w,self.display_rect.h)
+        map_surf = mapp.render_surf(subsurf_rect)
+        Surf.blit(map_surf,(0,0))
 
-        for p in particles:
-            proj_surf = p.render_surf()
-            Surf.blit(proj_surf,self.transform(p.x-proj_surf.get_width()/2,
-                                               p.y-proj_surf.get_height()/2))
+        
+        for p in particles+projectiles+players:
+            p_surf = p.render_surf()
+            Surf.blit(p_surf,self.transform(p.x-p_surf.get_width()/2,
+                                               p.y-p_surf.get_height()/2))
 
             
-        for p in projectiles:
-            proj_surf = p.render_surf()
-            Surf.blit(proj_surf,self.transform(p.x-proj_surf.get_width()/2,
-                                               p.y-proj_surf.get_height()/2))
-
-
         for p in players:
-            player_surf = p.render_surf()
-            Surf.blit(player_surf,self.transform(p.x-player_surf.get_width()/2,
-                                                 p.y-player_surf.get_height()/2))
             p.mpos = self.screen_pos_to_world_pos(self.target.ui.mpos,mapp)
         
 

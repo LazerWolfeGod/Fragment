@@ -10,7 +10,7 @@ class Abstract_Physics_Object:
         self.initial_speed = speed
         self.velocity = [speed*math.cos(angle),speed*math.sin(angle)]
         self.angle = angle
-        self.lifetime = random.gauss(600,100)
+        self.lifetime = 300
         self.alpha = 255
         
         self.finished = False
