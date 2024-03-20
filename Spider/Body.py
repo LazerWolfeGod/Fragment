@@ -8,6 +8,8 @@ class Body:
         stats = Data.Bodies[self.body_name]['Stats']
 
         self.radius = stats['Radius']
+        self.mass = stats['Mass']
+        self.health = stats['Health']
         self.image = Data.Bodies[self.body_name]['Image']
         self.image = pygame.transform.scale(self.image,(self.radius*2,self.radius*2))
 

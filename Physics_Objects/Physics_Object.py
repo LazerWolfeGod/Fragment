@@ -8,7 +8,7 @@ class Abstract_Physics_Object:
         self.x = x
         self.y = y
         self.initial_speed = speed
-        self.velocity = [speed*math.cos(angle),speed*math.sin(angle)]
+        self.velocity = pygame.Vector2([speed*math.cos(angle),speed*math.sin(angle)])
         self.angle = angle
         self.lifetime = 300
         self.alpha = 255

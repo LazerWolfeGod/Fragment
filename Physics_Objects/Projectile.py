@@ -2,10 +2,12 @@ import math,pygame,random
 from Physics_Objects.Particle import *
 from Physics_Objects.Physics_Object import Abstract_Physics_Object
 from Physics_Objects.Physics_Object_Data import Data
+from Utility_functions import *
 
 class Projectile(Abstract_Physics_Object):
-    def __init__(self,ui,x,y,speed,angle,name):
+    def __init__(self,ui,x,y,speed,angle,team,name):
         self.name = name
+        self.team = team
         stats = Data.projectiles[self.name]['Stats']
         super().__init__(ui,x,y,speed,angle,stats)
         
@@ -15,36 +17,31 @@ class Projectile(Abstract_Physics_Object):
         self.base_image = pygame.transform.scale(self.image,(self.length,stats['Width']))
         self.image = pygame.transform.rotate(self.base_image,-angle/math.pi*180)
 
-    
-    
-class Fader(Projectile):
-    def __init__(self,ui,x,y,angle,speed=8,energyloss=0.98):
-        super().__init__(ui,x,y,speed)
-        self.energyloss = energyloss
-    def child_gametick(self):
-        self.velocity[0]*=self.energyloss
-        self.velocity[1]*=self.energyloss
-
-        self.radius*=self.energyloss
-
-    def check_finished(self):
-        return self.radius<1
+        self.damage = stats['Damage']
+        self.knockback = stats['Knockback']
+    def check_entity_collide(self,entities):
+        for e in entities:
+            if e.team!=self.team:
+                if e.get_collide((self.x,self.y,self.radius)):
+                    e.take_damage(self.damage,self.velocity,self.knockback)
+                    self.collide()
+            
 
 class Energy_Ball(Projectile):
-    def __init__(self,ui,x,y,angle,speed):
-        super().__init__(ui,x,y,speed,angle,'Energy_Ball')
+    def __init__(self,ui,x,y,angle,speed,team):
+        super().__init__(ui,x,y,speed,angle,team,'Energy_Ball')
     def child_on_collision(self):
         self.finished = True
 
 class Bullet(Projectile):
-    def __init__(self,ui,x,y,angle,speed):
-        super().__init__(ui,x,y,speed,angle,'Bullet')
+    def __init__(self,ui,x,y,angle,speed,team):
+        super().__init__(ui,x,y,speed,angle,team,'Bullet')
     def child_on_collision(self):
         self.finished = True
 
 class Fire(Projectile):
-    def __init__(self,ui,x,y,angle,speed):
-        super().__init__(ui,x,y,speed,angle,'Fire')
+    def __init__(self,ui,x,y,angle,speed,team):
+        super().__init__(ui,x,y,speed,angle,team,'Fire')
         self.initial_speed = speed
         self.alpha = 255
     def render_surf(self):
@@ -61,8 +58,8 @@ class Fire(Projectile):
         self.alpha = int(255*(self.get_speed()/self.initial_speed))
 
 class Laser(Projectile):
-    def __init__(self,ui,x,y,angle,speed):
-        super().__init__(ui,x,y,speed,angle,'Laser')
+    def __init__(self,ui,x,y,angle,speed,team):
+        super().__init__(ui,x,y,speed,angle,team,'Laser')
     def child_gametick(self,particles):
         pos = (random.random()-0.5)*self.length
         particles.append(Laser_Dust(self.ui,self.x+math.cos(self.angle)*pos,self.y+math.sin(self.angle)*pos,

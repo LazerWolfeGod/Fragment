@@ -12,7 +12,7 @@ class Camera:
         self.velocity = [0,0]
         self.acceleration_constant = 0.03
         
-    def render(self,screen,mapp,players,projectiles,particles):
+    def render(self,screen,mapp,entities,projectiles,particles):
         Surf = pygame.Surface((self.display_rect.w,self.display_rect.h))
         Surf.fill((40,40,40))
 
@@ -22,13 +22,13 @@ class Camera:
         Surf.blit(map_surf,(0,0))
 
         
-        for p in particles+projectiles+players:
+        for p in particles+projectiles+entities:
             p_surf = p.render_surf()
             Surf.blit(p_surf,self.transform(p.x-p_surf.get_width()/2,
                                                p.y-p_surf.get_height()/2))
 
             
-        for p in players:
+        for p in entities:
             p.mpos = self.screen_pos_to_world_pos(self.target.ui.mpos,mapp)
         
 

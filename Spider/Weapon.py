@@ -32,14 +32,14 @@ class Weapon:
         self.image = pygame.transform.scale_by(self.image,(self.length)/(self.image.get_width()-self.image.get_height()))
 
 
-    def shoot(self,projectiles,ui,x,y,angle,vel):
+    def shoot(self,projectiles,ui,x,y,angle,vel,team):
         if self.cooldown_tracker<0:
             self.cooldown_tracker = self.cooldown
             dis = 1*self.length
             player_speed_component = ((vel[0]*math.cos(angle))**2+(vel[1]*math.sin(angle))**2)**0.5
             projectiles.append(self.projectile_obj(ui,x+math.cos(angle)*dis,
                                  y+math.sin(angle)*dis,random.gauss(angle,self.accuracy),
-                                 self.shot_velocity-player_speed_component))
+                                 self.shot_velocity-player_speed_component,team))
             return self.kick_back
         return 0
     
