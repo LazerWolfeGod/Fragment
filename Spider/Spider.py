@@ -81,6 +81,7 @@ class Spider:
                 self.velocity+=(impact_vel*knockback)/self.mass
             self.immunity_frames = 1
             self.health-=damage
+            self.angular_velocity+=random.gauss(0,20*knockback/self.mass)
 
     def check_dead(self,particles):
         self.dead = True
@@ -124,7 +125,7 @@ class Spider:
         for i,leg in enumerate(self.legs):
             on_ground = [l.on_ground for l in self.legs]
             can_lift = sum(on_ground)>int(len(self.legs)/2) and (self.legs[(i-1)%len(self.legs)].on_ground) and (self.legs[(i+1)%len(self.legs)].on_ground)
-            leg.move([self.x,self.y],self.angle,tilemap,can_lift,
+            leg.move(deltatime,[self.x,self.y],self.angle,tilemap,can_lift,
                      self.velocity,self.angular_velocity)
         self.weapon.gametick(deltatime)
 

@@ -7,7 +7,7 @@ from Spider.Spider import Spider
 class Enemy(Spider):
     def __init__(self,ui,x,y):
         self.team = 'Enemy'
-        super().__init__(ui,x,y,'Blue','Red','Flamer')
+        super().__init__(ui,x,y,'Blue','Blue','Base')
 
         self.attack_target = -1
 

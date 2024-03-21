@@ -13,8 +13,8 @@ class Projectile(Abstract_Physics_Object):
         
         self.image = Data.projectiles[self.name]['Image']
 
-        self.length = self.image.get_width()*(stats['Width']/self.image.get_height())
-        self.base_image = pygame.transform.scale(self.image,(self.length,stats['Width']))
+        self.length = self.image.get_width()*(self.width/self.image.get_height())
+        self.base_image = pygame.transform.scale(self.image,(self.length,self.width))
         self.image = pygame.transform.rotate(self.base_image,-angle/math.pi*180)
 
         self.damage = stats['Damage']
@@ -30,14 +30,15 @@ class Projectile(Abstract_Physics_Object):
 class Energy_Ball(Projectile):
     def __init__(self,ui,x,y,angle,speed,team):
         super().__init__(ui,x,y,speed,angle,team,'Energy_Ball')
-    def child_on_collision(self):
-        self.finished = True
 
 class Bullet(Projectile):
     def __init__(self,ui,x,y,angle,speed,team):
         super().__init__(ui,x,y,speed,angle,team,'Bullet')
-    def child_on_collision(self):
-        self.finished = True
+    def finish(self,particles):
+        for a in range(20):
+            particles.append(Dust(self.ui,self.x,self.y,
+                                  random.gauss(self.velocity.magnitude(),2),
+                                  random.gauss(self.angle,0.5)))
 
 class Fire(Projectile):
     def __init__(self,ui,x,y,angle,speed,team):
@@ -47,8 +48,6 @@ class Fire(Projectile):
     def render_surf(self):
         self.image.set_alpha(self.alpha)
         return self.image
-    def child_collision(self):
-        self.finished = True
     def check_finished(self):
         return self.alpha<10 or self.finished
     def child_gametick(self,particles):
@@ -64,4 +63,6 @@ class Laser(Projectile):
         pos = (random.random()-0.5)*self.length
         particles.append(Laser_Dust(self.ui,self.x+math.cos(self.angle)*pos,self.y+math.sin(self.angle)*pos,
                                     random.gauss(0,1),random.gauss(0,math.pi)))
-        
+    def finish(self,particles):
+        for a in range(10):
+            pass

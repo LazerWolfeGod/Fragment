@@ -30,9 +30,12 @@ class Data:
                                       'antnaaaa':{'atlas':[2,0,3],'hitbox':[(1,0,0.15)]}}},
             }
 
+    objects = {'Box':{'File':'Assets\\Box.png',
+                      'Stats':{'Width':20,'Height':20,'Health':5,'Mass':10}}}
+
+    for obj in objects:
+        objects[obj]['Image'] = pygame.image.load(resourcepath(objects[obj]['File'])).convert_alpha()
     
-
-
     def process_tile_overlays():
         def rotate_hitbox(hitbox):
             if len(hitbox) == 4:

@@ -22,7 +22,7 @@ class Camera:
         Surf.blit(map_surf,(0,0))
 
         
-        for p in particles+projectiles+entities:
+        for p in entities+particles+projectiles:
             p_surf = p.render_surf()
             Surf.blit(p_surf,self.transform(p.x-p_surf.get_width()/2,
                                                p.y-p_surf.get_height()/2))

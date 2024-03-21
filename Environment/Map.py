@@ -2,6 +2,7 @@ import pygame,json
 pygame.init()
 
 from Environment.Environment_Data import Data
+from Environment.Objects import *
 from Utility_functions import *
 
 
@@ -176,10 +177,18 @@ class Map:
         self.map_name = map_name
         self.load_map(map_name)
         self.tilemap = TileMap(self.grid,cell_size)
+        self.objects = [Box(200,200)]
         
     def render_surf(self,subsurf_rect):
         Surf = pygame.Surface((subsurf_rect.w,subsurf_rect.h))
         Surf = self.tilemap.render(Surf,subsurf_rect)
+
+        for o in self.objects:
+            if o.get_collide(subsurf_rect):
+                object_surf = o.render_surf()
+                Surf.blit(object_surf,(o.x-subsurf_rect.x-object_surf.get_width()/2,
+                                       o.y-subsurf_rect.y-object_surf.get_height()/2))
+            
 
         return Surf
     def get_grid(self):

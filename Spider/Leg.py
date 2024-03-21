@@ -29,7 +29,7 @@ class Leg:
         
         self.start_pos = self.get_start_pos(player_pos,player_angle)
         self.ground_target = self.get_ground_target(player_angle)
-        self.move(player_pos,player_angle,True)
+        self.move(1,player_pos,player_angle,True)
 
         self.image = Data.Legs[leg_name]['Image']
         self.image = pygame.transform.scale_by(self.image,(self.leg_lengths[0])/(self.image.get_width()-self.image.get_height()))
@@ -40,7 +40,7 @@ class Leg:
         return [self.start_pos[0]+player_velocity[0]*self.prediction_magnitude_velocity+(self.target_distance)*math.cos(angle),
                 self.start_pos[1]+player_velocity[1]*self.prediction_magnitude_velocity+(self.target_distance)*math.sin(angle)]
 
-    def move(self,player_pos,player_angle,tilemap=-1,can_lift_up=True,player_velocity=[0,0],player_angular_velocity=0):
+    def move(self,deltatime,player_pos,player_angle,tilemap=-1,can_lift_up=True,player_velocity=[0,0],player_angular_velocity=0):
         self.start_pos = self.get_start_pos(player_pos,player_angle)
         
         if can_lift_up and distance(self.get_ground_target(player_angle),self.ground_target)>self.target_distance*max(math.e**-self.leg_pos_precision,self.lift_up_distance_min): #distance(self.start_pos,self.ground_target)*1.2>sum(self.leg_lengths) or 
@@ -50,7 +50,7 @@ class Leg:
         if self.on_ground:
             self.skeleton = self.inverse_kinematics(self.ground_target,tilemap)
         else:
-            self.skeleton = self.inverse_kinematics(self.ground_target,tilemap,self.joint_rotate_speed)
+            self.skeleton = self.inverse_kinematics(self.ground_target,tilemap,self.joint_rotate_speed*deltatime)
 
         self.leg_pos_precision += 0.1
         

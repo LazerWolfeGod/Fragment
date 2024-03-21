@@ -11,7 +11,7 @@ class Particle(Abstract_Physics_Object):
 
         self.image = Data.particles[self.name]['Image']
 
-        self.base_image = pygame.transform.scale(self.image,(self.image.get_width()*(self.radius*2/self.image.get_height()),stats['Width']))
+        self.base_image = pygame.transform.scale(self.image,(self.image.get_width()*(self.radius*2/self.image.get_height()),self.width))
         self.image = pygame.transform.rotate(self.base_image,-angle/math.pi*180)
 
 class Spark(Particle):
@@ -29,6 +29,13 @@ class Laser_Dust(Particle):
         self.alpha = int(150*(self.get_speed()/self.initial_speed))
     def check_finished(self):
         return self.alpha < 40
+
+class Dust(Particle):
+    def __init__(self,ui,x,y,speed,angle):
+        super().__init__(ui,x,y,speed,angle,'Dust')
+        self.lifetime = 60
+    def child_gametick(self,_):
+        self.alpha = int(255*((self.get_speed()/self.initial_speed)**0.1))
         
 
 

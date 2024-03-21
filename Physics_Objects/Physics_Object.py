@@ -7,7 +7,7 @@ class Abstract_Physics_Object:
         self.ui = ui
         self.x = x
         self.y = y
-        self.initial_speed = speed
+        self.initial_speed = abs(speed)
         self.velocity = pygame.Vector2([speed*math.cos(angle),speed*math.sin(angle)])
         self.angle = angle
         self.lifetime = 300
@@ -21,8 +21,11 @@ class Abstract_Physics_Object:
         
         self.restitution = stats['Restitution']
         self.collision_count = stats['Collision_Limit']
+        self.has_collisions = stats['Has_Collisions']
         self.drag = stats['Drag']
         self.width = stats['Width']
+        if type(self.width) in [list,tuple]:
+            self.width = max(random.gauss(self.width[0],self.width[1]),1)
         self.radius = self.width/2
         
         
@@ -64,13 +67,16 @@ class Abstract_Physics_Object:
         return math.atan2(self.velocity[1],self.velocity[0])
 
     def check_tilemap_collision(self,tilemap):
-        self.hitbox = (self.x,self.y,self.radius)
-        return tilemap.check_collisions(self.hitbox)
+        if self.has_collisions:
+            self.hitbox = (self.x,self.y,self.radius)
+            return tilemap.check_collisions(self.hitbox)
+        return False
 
     def check_finished(self):
         return self.lifetime<0 or self.alpha == 0 or self.finished
 
     def child_on_collision(self): pass
     def child_gametick(self,_): pass
+    def finish(self,_): pass
 
 

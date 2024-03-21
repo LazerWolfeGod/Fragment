@@ -40,6 +40,7 @@ class Level:
                 if p.check_finished():
                     remove_list.append(p)
             for rem in remove_list:
+                rem.finish(self.particles)
                 object_list.remove(rem)
         for p in self.projectiles:
             p.check_entity_collide(self.entities)

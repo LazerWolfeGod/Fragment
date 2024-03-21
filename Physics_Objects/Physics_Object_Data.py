@@ -22,6 +22,8 @@ class Data:
                           'Stats':{'Width':10,'Restitution':1,'Drag':0.9}},
                  'Laser_Dust':{'File':'Assets\\Particles\\Laser_Dust.png',
                           'Stats':{'Width':10,'Drag':0.9,'Has_Collisions':False}},
+                 'Dust':{'File':'Assets\\Particles\\Dust.png',
+                          'Stats':{'Width':(6,2),'Drag':0.8,'Has_Collisions':False}},
                  
                  }
     
