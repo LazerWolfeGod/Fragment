@@ -12,13 +12,13 @@ class Camera:
         self.velocity = [0,0]
         self.acceleration_constant = 0.03
         
-    def render(self,screen,mapp,entities,projectiles,particles):
+    def render(self,screen,mapp,entities,objects,projectiles,particles):
         Surf = pygame.Surface((self.display_rect.w,self.display_rect.h))
         Surf.fill((40,40,40))
 
         transformed = self.transform(mapp.tilemap.x,mapp.tilemap.y)
         subsurf_rect = pygame.Rect(-transformed[0],-transformed[1],self.display_rect.w,self.display_rect.h)
-        map_surf = mapp.render_surf(subsurf_rect)
+        map_surf = mapp.render_surf(subsurf_rect,objects)
         Surf.blit(map_surf,(0,0))
 
         

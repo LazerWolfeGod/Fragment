@@ -10,6 +10,7 @@ class Projectile(Abstract_Physics_Object):
         self.team = team
         stats = Data.projectiles[self.name]['Stats']
         super().__init__(ui,x,y,speed,angle,stats)
+        self.thing = 'Projectile'
         
         self.image = Data.projectiles[self.name]['Image']
 
@@ -19,12 +20,14 @@ class Projectile(Abstract_Physics_Object):
 
         self.damage = stats['Damage']
         self.knockback = stats['Knockback']
-    def check_entity_collide(self,entities):
-        for e in entities:
-            if e.team!=self.team:
-                if e.get_collide((self.x,self.y,self.radius)):
-                    e.take_damage(self.damage,self.velocity,self.knockback)
-                    self.collide()
+##    def check_entity_collide(self,entities):
+##        for e in entities:
+##            if e.team!=self.team:
+##                if e.get_collide((self.x,self.y,self.radius)):
+##                    e.take_damage(self.damage,self.velocity,self.knockback)
+##                    self.collide()
+    def collide_object(self,obj):
+        obj.take_damage(self.damage,self.velocity,self.knockback)
             
 
 class Energy_Ball(Projectile):

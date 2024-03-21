@@ -2,7 +2,7 @@ import pygame,json
 pygame.init()
 
 from Environment.Environment_Data import Data
-from Environment.Objects import *
+from Entities.Objects import *
 from Utility_functions import *
 
 
@@ -170,27 +170,33 @@ class TileMap:
         
 
 class Map:
-    def __init__(self,cell_size=32,map_name=''):
+    def __init__(self,ui,cell_size=32,map_name=''):
         Data.resize_tiles(cell_size,True)
         self.cell_size = cell_size
 
         self.map_name = map_name
         self.load_map(map_name)
         self.tilemap = TileMap(self.grid,cell_size)
-        self.objects = [Box(200,200)]
-        
-    def render_surf(self,subsurf_rect):
+
+    def render_surf(self,subsurf_rect,objects):
         Surf = pygame.Surface((subsurf_rect.w,subsurf_rect.h))
         Surf = self.tilemap.render(Surf,subsurf_rect)
 
-        for o in self.objects:
+        for o in objects:
             if o.get_collide(subsurf_rect):
+                o.active = True
                 object_surf = o.render_surf()
                 Surf.blit(object_surf,(o.x-subsurf_rect.x-object_surf.get_width()/2,
                                        o.y-subsurf_rect.y-object_surf.get_height()/2))
+            else:
+                o.active = False
             
 
         return Surf
+
+    def check_collisions(self,obj):
+        return self.tilemap.check_collisions(obj)
+
     def get_grid(self):
         self.grid = []
         for y in self.tilemap.grid:

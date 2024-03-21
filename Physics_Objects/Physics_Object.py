@@ -4,6 +4,7 @@ from Physics_Objects.Physics_Object_Data import Data
 
 class Abstract_Physics_Object:
     def __init__(self,ui,x,y,speed,angle,stats):
+        self.thing = 'Physics_Object'
         self.ui = ui
         self.x = x
         self.y = y
@@ -29,7 +30,7 @@ class Abstract_Physics_Object:
         self.radius = self.width/2
         
         
-    def move(self,tilemap,particles):
+    def move(self,mapp,entities,objects,particles):
         self.child_gametick(particles)
 
         self.lifetime-=self.ui.deltatime
@@ -38,12 +39,12 @@ class Abstract_Physics_Object:
         self.velocity[1]*=self.drag
         
         self.x+=self.velocity[0]
-        if self.check_tilemap_collision(tilemap):
+        if self.check_collision(mapp,entities,objects):
             self.x-=self.velocity[0]
             self.velocity[0]*=-self.restitution
             self.collide()
         self.y+=self.velocity[1]
-        if self.check_tilemap_collision(tilemap):
+        if self.check_collision(mapp,entities,objects):
             self.y-=self.velocity[1]
             self.velocity[1]*=-self.restitution
             self.collide()
@@ -66,10 +67,19 @@ class Abstract_Physics_Object:
     def get_angle(self):
         return math.atan2(self.velocity[1],self.velocity[0])
 
-    def check_tilemap_collision(self,tilemap):
+    def check_collision(self,mapp,entities,objects):
         if self.has_collisions:
             self.hitbox = (self.x,self.y,self.radius)
-            return tilemap.check_collisions(self.hitbox)
+            if mapp.check_collisions(self.hitbox):
+                return True
+            if self.thing == 'Projectile':
+                for e in entities:
+                    if e.team!=self.team:
+                        if e.get_collide(self.hitbox):
+                            e.take_damage(self.damage,self.velocity,self.knockback)
+                for o in objects:
+                    if o.get_collide(self.hitbox):
+                        o.take_damage(self.damage,self.velocity,self.knockback)
         return False
 
     def check_finished(self):
@@ -78,5 +88,6 @@ class Abstract_Physics_Object:
     def child_on_collision(self): pass
     def child_gametick(self,_): pass
     def finish(self,_): pass
+    def collide_object(self,_): pass
 
 
