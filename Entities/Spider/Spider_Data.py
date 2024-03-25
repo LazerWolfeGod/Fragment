@@ -18,7 +18,8 @@ class Data:
                     'Stats':{'Length':21,'Target_Distance':30,'Num_Legs':4,'Move_Speed':0.3,'Turn_Speed':0.2}},
             
             'Blue':{'File':'Assets\\Player_parts\\Legs\\Blue.png',
-                     'Stats':{'Length':20,'Target_Distance':30,'Num_Legs':4,'Move_Speed':0.45,'Turn_Speed':0.15}},
+                     'Stats':{'Length':22,'Target_Distance':34,'Num_Legs':4,'Move_Speed':0.45,
+                              'Turn_Speed':0.15,'Prediction_Magnitude_Velocity':7}},
             
             'Red':{'File':'Assets\\Player_parts\\Legs\\Red.png',
                    'Stats':{'Length':30,'Target_Distance':45,'Num_Legs':6,
@@ -29,6 +30,9 @@ class Data:
                    'Stats':{'Length':80,'Target_Distance':140,'Num_Legs':8,
                             'Move_Speed':0.8,'Move_Friction':0.85,'Turn_Speed':0.05,
                             'Joint_Rotate_Speed':0.1,'Foward_Value':0.97}},
+            'Metal':{'File':'Assets\\Player_parts\\Legs\\Metal.png',
+                   'Stats':{'Length':30,'Target_Distance':50,'Num_Legs':4,
+                            'Move_Speed':0.5,'Turn_Speed':0.2}},
             }
 
     Bodies = {'Base':{'File':'Assets\\Player_parts\\Bodies\\Base.png',
@@ -51,6 +55,9 @@ class Data:
                'Base':{'File':'Assets\\Player_parts\\Weapons\\Base.png',
                           'Stats':{'Length':30,'Projectile':'Bullet','Kick_Back':5,'Cooldown':10,'AutoFire':False,
                                    'Damage':1,'Accuracy':0.1,'Velocity':10}},
+               'Rifle':{'File':'Assets\\Player_parts\\Weapons\\Rifle.png',
+                          'Stats':{'Length':25,'Projectile':'Bullet','Kick_Back':15,'Cooldown':30,'AutoFire':False,
+                                   'Damage':2,'Accuracy':0.01,'Velocity':15}},
                'Flamer':{'File':'Assets\\Player_parts\\Weapons\\Flamer.png',
                          'Stats':{'Length':50,'Projectile':'Fire','Kick_Back':1,'Cooldown':0,'AutoFire':True,
                                   'Damage':4,'Accuracy':0.3,'Velocity':10}},

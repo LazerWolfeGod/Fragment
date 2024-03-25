@@ -18,7 +18,7 @@ class Level:
 ##        self.entities = [Player(ui,240,240,'Blue','Metal','Base')]
 ##                         Enemy(ui,240,360,'Blue','Blue'),
 ##                         Enemy(ui,400,360,'Blue','Red','Flamer')]
-        self.objects = [Box(ui,random.gauss(500,50),random.gauss(200,50)) for i in range(5)]
+        self.objects = []#Box(ui,random.gauss(500,50),random.gauss(200,50)) for i in range(5)]
         self.cameras = [Camera(self.entities[0],pygame.Rect(10,10,ui.screenw-20,ui.screenh-20))]
 ##        self.map = Map(ui,128,'level 1')
 
@@ -29,7 +29,8 @@ class Level:
         self.map = Map(self.ui,128,name)
         
         self.entities = [Map_Editor.make_spider(self.ui,info) for info in self.map.entity_data]
-        
+    def resize(self):
+        self.cameras[0].set_display_rect(pygame.Rect(10,10,self.ui.screenw-20,self.ui.screenh-20))
     def game_tick(self,screen):
         screen.fill(pyui.Style.wallpapercol)
         self.calc_entity_collide_dict()

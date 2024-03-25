@@ -34,7 +34,8 @@ class Camera:
 
         screen.blit(Surf,self.display_rect.topleft)
         
-
+    def set_display_rect(self,display_rect):
+        self.display_rect = display_rect
     def transform(self,x=0,y=0,return_tuple=True):
         if not type(x) in [list,tuple]: pos = [x,y]
         else: pos = x
