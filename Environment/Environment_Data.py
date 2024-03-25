@@ -31,7 +31,7 @@ class Data:
             }
 
     objects = {'Box':{'File':'Assets\\Box.png',
-                      'Stats':{'Width':20,'Height':20,'Health':50,'Mass':10}}}
+                      'Stats':{'Width':60,'Height':60,'Health':50,'Mass':10}}}
 
     for obj in objects:
         objects[obj]['Image'] = pygame.image.load(resourcepath(objects[obj]['File'])).convert_alpha()

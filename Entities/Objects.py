@@ -11,6 +11,7 @@ class Object(Entity):
     def __init__(self,ui,x,y,angle,name):
         super().__init__(ui,x,y)
         self.thing = 'Object'
+        self.team = 'None'
         
         self.name = name
         self.stats = Data.objects[self.name]['Stats']
@@ -18,6 +19,7 @@ class Object(Entity):
         self.height = self.stats['Height']
         self.mass = self.stats['Mass']
         self.health = self.stats['Health']
+        self.max_health = self.health
 
 
         self.base_image = Data.objects[self.name]['Image'].copy()

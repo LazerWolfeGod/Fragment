@@ -8,6 +8,7 @@ class Particle(Abstract_Physics_Object):
         self.name = name
         stats = Data.particles[self.name]['Stats']
         super().__init__(ui,x,y,speed,angle,stats)
+        self.thing = 'Particle'
 
         self.image = Data.particles[self.name]['Image']
 
@@ -36,6 +37,25 @@ class Dust(Particle):
         self.lifetime = 60
     def child_gametick(self,_):
         self.alpha = int(255*((self.get_speed()/self.initial_speed)**0.1))
+
+class Spider_Body(Particle):
+    def __init__(self,ui,x,y,speed,angle,image,width):
+        Data.particles['Spider_Body']['Image'] = image.copy()
+        Data.particles['Spider_Body']['Stats']['Width'] = width
+        super().__init__(ui,x,y,speed,angle,'Spider_Body')
+        self.lifetime = 60
+    def child_gametick(self,_):
+        self.alpha = int(255*(self.lifetime/60))
+        
+class Spider_Leg(Particle):
+    def __init__(self,ui,x,y,speed,angle,image,width):
+        Data.particles['Spider_Leg']['Image'] = image.copy()
+        Data.particles['Spider_Leg']['Stats']['Width'] = width
+        super().__init__(ui,x,y,speed,angle,'Spider_Leg')
+        self.lifetime = 60
+    def child_gametick(self,_):
+        self.alpha = int(255*(self.lifetime/60))
+        
         
 
 

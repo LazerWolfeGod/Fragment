@@ -41,6 +41,8 @@ class Data:
                       'Stats':{'Radius':30,'Mass':30,'Health':70}},
               'Green':{'File':'Assets\\Player_parts\\Bodies\\Green.png',
                       'Stats':{'Radius':64,'Mass':200,'Health':500}},
+              'Metal':{'File':'Assets\\Player_parts\\Bodies\\Metal.png',
+                      'Stats':{'Radius':25,'Mass':20,'Health':50}},
               }
 
     Weapons = {'Blaster':{'File':'Assets\\Player_parts\\Weapons\\Blaster.png',

@@ -16,10 +16,9 @@ from Level import Level
 from Environment.Map_Editor import Map_Editor
 
 
-game = Level(ui)
+game = Level(ui,'death')
 #game = Map_Editor(ui)
-
-
+ 
 while not done:
     for event in ui.loadtickdata():
         if event.type == pygame.QUIT:

@@ -9,7 +9,7 @@ class Data:
     
     
     projectiles = {'Bullet':{'File':'Assets\\Projectiles\\Bullet.png',
-                           'Stats':{'Damage':1,'Knockback':0.1,'Width':11,'Restitution':1}},
+                           'Stats':{'Damage':1,'Knockback':0.1,'Width':11,'Restitution':1,'Collision_Limit':0}},
                    'Energy_Ball':{'File':'Assets\\Projectiles\\Energy_Ball.png',
                            'Stats':{'Damage':1,'Knockback':0.1,'Width':12}},
                    'Fire':{'File':'Assets\\Projectiles\\Fire.png',
@@ -24,6 +24,10 @@ class Data:
                           'Stats':{'Width':10,'Drag':0.9,'Has_Collisions':False}},
                  'Dust':{'File':'Assets\\Particles\\Dust.png',
                           'Stats':{'Width':(6,2),'Drag':0.8,'Has_Collisions':False}},
+                 'Spider_Body':{'File':'Assets\\Player_Parts\\Bodies\\Base.png',
+                          'Stats':{'Width':40,'Drag':0.9,'Has_Collisions':True,'Collision_Limit':4}},
+                 'Spider_Leg':{'File':'Assets\\Player_Parts\\Bodies\\Base.png',
+                          'Stats':{'Width':40,'Drag':0.9,'Has_Collisions':True,'Collision_Limit':4}},
                  
                  }
     

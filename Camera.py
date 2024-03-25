@@ -45,8 +45,8 @@ class Camera:
         else:
             return ret[0],ret[1]
     def screen_pos_to_world_pos(self,pos,mapp):
-        return [pos[0]-self.display_rect.x+self.x-self.display_rect.w/2-mapp.tilemap.x,
-                pos[1]-self.display_rect.y+self.y-self.display_rect.h/2-mapp.tilemap.y]
+        return [pos[0]-self.display_rect.x+self.x-self.display_rect.w/2,
+                pos[1]-self.display_rect.y+self.y-self.display_rect.h/2]
 
     def move(self):
         if self.lock_on:

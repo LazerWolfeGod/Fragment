@@ -1,6 +1,8 @@
 import pygame,math,random
 from Utility_functions import *
 from Entities.Spider.Spider_Data import Data
+from Physics_Objects.Particle import Spider_Body
+
 
 class Leg:
     def __init__(self,player_pos,player_angle,angle,leg_name,body_radius,scale):
@@ -124,7 +126,7 @@ class Leg:
         for section in self.skeleton:
             pre = pos
             pos = [pos[0]+section[0]*math.cos(section[1]),pos[1]+section[0]*math.sin(section[1])]
-##            pygame.draw.line(Surf,(180,120,60),pre,pos,4)
             rotated = self.rotated_images[int(-section[1]/math.pi*180)%360]#pygame.transform.rotate(self.image,-section[1]/math.pi*180)
             Surf.blit(rotated,[pos[0]+(pre[0]-pos[0]-rotated.get_width())/2,pos[1]+(pre[1]-pos[1]-rotated.get_height())/2])
-        
+    def make_particles(self,particles):
+        particles.append()

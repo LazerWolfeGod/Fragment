@@ -5,9 +5,9 @@ from Utility_functions import *
 from Entities.Spider.Spider import Spider 
 
 class Enemy(Spider):
-    def __init__(self,ui,x,y):
+    def __init__(self,ui,x,y,leg_name='Base',body_name='Base',weapon_name='Base'):
         self.team = 'Enemy'
-        super().__init__(ui,x,y,'Blue','Blue','Base')
+        super().__init__(ui,x,y,leg_name,body_name,weapon_name)
 
         self.attack_target = -1
 
@@ -26,9 +26,9 @@ class Enemy(Spider):
         self.move_vector = pygame.Vector2(0,0)
 
         if self.attack_target != -1:
-            self.target_angle = math.atan2(self.attack_target.y-self.y,self.attack_target.x-self.x)
+            self.target_body_angle = math.atan2(self.attack_target.y-self.y,self.attack_target.x-self.x)
             
-##            self.shoot(projectiles)
+            self.shoot(projectiles)
 
 
         

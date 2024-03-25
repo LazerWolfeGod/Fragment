@@ -1,5 +1,6 @@
 import math,pygame,random
 from Physics_Objects.Physics_Object_Data import Data
+from Utility_functions import *
 
 
 class Abstract_Physics_Object:
@@ -30,7 +31,7 @@ class Abstract_Physics_Object:
         self.radius = self.width/2
         
         
-    def move(self,mapp,entities,objects,particles):
+    def move(self,mapp,entity_collide_dict,particles):
         self.child_gametick(particles)
 
         self.lifetime-=self.ui.deltatime
@@ -39,12 +40,12 @@ class Abstract_Physics_Object:
         self.velocity[1]*=self.drag
         
         self.x+=self.velocity[0]
-        if self.check_collision(mapp,entities,objects):
+        if self.check_collision(mapp,entity_collide_dict):
             self.x-=self.velocity[0]
             self.velocity[0]*=-self.restitution
             self.collide()
         self.y+=self.velocity[1]
-        if self.check_collision(mapp,entities,objects):
+        if self.check_collision(mapp,entity_collide_dict):
             self.y-=self.velocity[1]
             self.velocity[1]*=-self.restitution
             self.collide()
@@ -67,19 +68,22 @@ class Abstract_Physics_Object:
     def get_angle(self):
         return math.atan2(self.velocity[1],self.velocity[0])
 
-    def check_collision(self,mapp,entities,objects):
+    def check_collision(self,mapp,entity_collide_dict):
         if self.has_collisions:
             self.hitbox = (self.x,self.y,self.radius)
             if mapp.check_collisions(self.hitbox):
                 return True
             if self.thing == 'Projectile':
-                for e in entities:
-                    if e.team!=self.team:
-                        if e.get_collide(self.hitbox):
-                            e.take_damage(self.damage,self.velocity,self.knockback)
-                for o in objects:
-                    if o.get_collide(self.hitbox):
-                        o.take_damage(self.damage,self.velocity,self.knockback)
+                IDs = obj_to_colgrid_IDs(self.hitbox)
+                objs = set()
+                for ID in IDs:
+                    if ID in entity_collide_dict:
+                        for e in entity_collide_dict[ID]:
+                            objs.add(e)
+                for e in objs:
+                    if self.team!=e.team and e.get_collide(self.hitbox):
+                        e.take_damage(self.damage,self.velocity,self.knockback)
+                        return True
         return False
 
     def check_finished(self):

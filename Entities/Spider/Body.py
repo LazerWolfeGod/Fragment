@@ -10,8 +10,8 @@ class Body:
         self.radius = stats['Radius']
         self.mass = stats['Mass']
         self.health = stats['Health']
-        self.image = Data.Bodies[self.body_name]['Image']
-        self.image = pygame.transform.scale(self.image,(self.radius*2,self.radius*2))
+        self.base_image = Data.Bodies[self.body_name]['Image']
+        self.image = pygame.transform.scale(self.base_image,(self.radius*2,self.radius*2))
 
     
     def render(self,Surf,center,player_angle):

@@ -16,15 +16,24 @@ class Entity:
         
         self.dead = False
         self.active = True
+        self.colgrid_IDs = set()
 
         self.move_friction = 0.85
         self.restitution_coefficient = 0.5
 
+        self.time_since_damage = 0
+        self.heal_rate = -1
+        self.time_to_heal = 200
         
-    def get_map_collision(self,mapp=0):
+    def check_collision(self,mapp=0,entity_collide_dict={}):
         if mapp != 0:
             for h in self.get_hitboxes():
                 if mapp.check_collisions(h):
+                    return True
+        for i in self.colgrid_IDs:
+            for e in entity_collide_dict[i]:
+                if e!=self and e.get_collide(self.get_hitboxes()[0]):
+                    
                     return True
         return False
     def get_hitboxes(self):
@@ -33,6 +42,11 @@ class Entity:
     def get_collide(self,obj):
         return list_obj_collide(self.get_hitboxes(),obj)
 
+    def get_vel_mag(self):
+        return ((self.velocity[0])**2+(self.velocity[1])**2)**0.5
+    def get_vel_angle(self):
+        return math.atan2(self.velocity[1],self.velocity[0])
+
     def take_damage(self,damage,impact_vel=-1,knockback=0):
         if self.immunity_frames<0:
             if impact_vel != -1:
@@ -40,17 +54,25 @@ class Entity:
             self.immunity_frames = 1
             self.health-=damage
             self.angular_velocity+=random.gauss(0,20*knockback/self.mass)
+            self.time_since_damage = 0
             
     def check_dead(self,particles):
         self.dead = True
         if self.health<0:
+            self.die(particles)
             return True
         return False
+    def die(self,_): pass
 
-    def gametick(self,mapp,projectiles,entities,deltatime):
-        self.move(mapp,deltatime)
-    
-    def move(self,mapp,deltatime):
+    def gametick(self,mapp,projectiles,entity_collide_dict,entities,deltatime):
+        self.heal(deltatime)
+        self.move(mapp,entity_collide_dict,deltatime)
+    def heal(self,deltatime):
+        self.time_since_damage+=deltatime
+        if self.heal_rate!=-1 and self.time_since_damage>self.time_to_heal:
+            self.health = min(self.health+(2**(min(self.time_since_damage-self.time_to_heal,600)*self.heal_rate/60))/60*deltatime,self.max_health)
+
+    def move(self,mapp,entity_collide_dict,deltatime):
         self.child_move(mapp,deltatime)
         self.immunity_frames-=deltatime
 
@@ -61,18 +83,15 @@ class Entity:
 
         prev_x = self.x
         self.x+=self.velocity[0]*self.ui.deltatime
-        if self.get_map_collision(mapp):
+        if self.check_collision(mapp,entity_collide_dict):
             self.x = prev_x
             self.velocity[0]*=-self.restitution_coefficient
 
         prev_y = self.y
         self.y+=self.velocity[1]*self.ui.deltatime
-        if self.get_map_collision(mapp):
+        if self.check_collision(mapp,entity_collide_dict):
             self.y = prev_y
             self.velocity[1]*=-self.restitution_coefficient
-
-##        if self.thing == 'Spider':
-##            self.spider_physics(self.ui.deltatime)
 
             
 

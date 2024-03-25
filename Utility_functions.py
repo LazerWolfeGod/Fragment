@@ -41,20 +41,44 @@ def list_list_collide(lis1,lis2):
     return False
 
 def list_obj_collide(lis,obj):
+##    print(lis,obj)
     if len(obj) == 3:
         for j in lis:
             if len(j) == 3:
                 if circle_circle_collide(obj,j): return True
             else:
-                if rect_circle_collide(j,obj):
-                    return True
+                if rect_circle_collide(j,obj): return True
     else:
         for j in lis:
             if len(j) == 3:
-                if rect_circle_collide(i,obj): return True
+                if rect_circle_collide(obj,j): return True
             else:
                 if rect_rect_collide(j,obj): return True
     return False
+
+def obj_to_colgrid_IDs(obj):
+    if len(obj) == 3:
+        top_left = map_pos_to_colgrid_pos(obj[0]-obj[2],obj[1]-obj[2])
+        bottom_right = map_pos_to_colgrid_pos(obj[0]+obj[2],obj[1]+obj[2])
+    else:
+        top_left = map_pos_to_colgrid_pos(obj[0],obj[1])
+        bottom_right = map_pos_to_colgrid_pos(obj[0]+obj[2],obj[1]+obj[3])
+    IDs = []
+    for y in range(top_left[1],bottom_right[1]+1):
+        for x in range(top_left[0],bottom_right[0]+1):
+            IDs.append(colgrid_pos_to_colgrid_ID(x,y))
+    return IDs
+
+def map_pos_to_colgrid_pos(x,y):
+    grid_size = 100
+    return int(x//grid_size),int(y//grid_size)
+def colgrid_pos_to_colgrid_ID(x,y):
+    big_num = 100000
+    return int(x)*big_num+int(y)
+
+def map_pos_to_colgrid_ID(x,y):
+    colgrid_x,colgrid_y = map_pos_to_colgrid_pos(x,y)
+    return colgrid_pos_to_colgrid_ID(colgrid_x,colgrid_y)
 
 
 

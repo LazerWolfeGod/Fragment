@@ -5,7 +5,7 @@ from Utility_functions import *
 from Entities.Spider.Spider import Spider 
 
 class Player(Spider):
-    def __init__(self,ui,x,y):
+    def __init__(self,ui,x,y,leg_name='Base',body_name='Base',weapon_name='Base'):
 
         self.team = 'Player'
         self.keybinds = {'UP':[pygame.K_w,pygame.K_UP],
@@ -17,7 +17,7 @@ class Player(Spider):
 
         self.mpos = (0,0)
 
-        super().__init__(ui,x,y,'Blue','Blue','Flamer')
+        super().__init__(ui,x,y,leg_name,body_name,weapon_name)
 
 
     def control(self,mapp,projectiles,entities):
@@ -28,7 +28,7 @@ class Player(Spider):
         if self.get_pressed('RIGHT'): self.move_vector[0]+=1
         
     
-        self.target_angle = math.atan2(self.mpos[1]-self.y,self.mpos[0]-self.x)
+        self.target_body_angle = math.atan2(self.mpos[1]-self.y,self.mpos[0]-self.x)
 
 
         if self.get_pressed('SHOOT'):
