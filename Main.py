@@ -16,7 +16,7 @@ from Level import Level
 from Environment.Map_Editor import Map_Editor
 
 
-game = Level(ui,'level 4')
+game = Level(ui,'level 3')
 ##game = Map_Editor(ui)
  
 while not done:

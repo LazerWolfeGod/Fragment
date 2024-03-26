@@ -29,9 +29,10 @@ class Camera:
 
             
         for p in entities:
+            p.render_hud(Surf)
             p.mpos = self.screen_pos_to_world_pos(self.target.ui.mpos,mapp)
         
-
+            
         screen.blit(Surf,self.display_rect.topleft)
         
     def set_display_rect(self,display_rect):

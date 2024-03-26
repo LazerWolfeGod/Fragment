@@ -69,3 +69,18 @@ class Laser(Projectile):
     def finish(self,particles):
         for a in range(10):
             pass
+
+class Pellet(Projectile):
+    def __init__(self,ui,x,y,angle,speed,team):
+        super().__init__(ui,x,y,speed,angle,team,'Pellet')
+        self.constant_vel = random.gauss(40,10)
+    def child_gametick(self,particles):
+        self.alpha = int(255*(self.get_speed()/self.initial_speed))
+
+class Wave(Projectile):
+    def __init__(self,ui,x,y,angle,speed,team):
+        super().__init__(ui,x,y,speed,angle,team,'Wave')
+        self.constant_vel = 16
+    def child_gametick(self,particles):
+        self.alpha = int(255*(self.get_speed()/self.initial_speed))
+    

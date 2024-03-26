@@ -136,7 +136,7 @@ class Map_Editor:
         with open(resourcepath('Maps\\'+self.ui.IDs['save_textbox'].text+'.json'),'w') as f:
             json.dump(dat,f)
             
-        self.ui.IDs['save_textbox'].settext()
+##        self.ui.IDs['save_textbox'].settext()
         self.ui.menuback()
     def open_file(self,name):
         if name == '':

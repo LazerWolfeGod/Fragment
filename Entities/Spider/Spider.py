@@ -66,7 +66,8 @@ class Spider(Entity):
 
         self.velocity[0]-=kickback*math.cos(self.angle)/self.mass
         self.velocity[1]-=kickback*math.sin(self.angle)/self.mass
-
+    def reload(self):
+        self.weapon.reload()
 
     def gametick(self,mapp,projectiles,entity_collide_dict,entities,deltatime):
         self.heal(deltatime)
@@ -104,6 +105,7 @@ class Spider(Entity):
 ##                                     self.get_vel_angle(),self.body.image,self.radius*2))
     
     def control(self,**_): pass
+    def render_hud(self,*_): pass
 
 
 

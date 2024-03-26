@@ -16,6 +16,7 @@ class Abstract_Physics_Object:
         self.alpha = 255
         
         self.finished = False
+        self.constant_vel = 0
 
         d_copy = Data.physics_defaults.copy()
         d_copy.update(stats)
@@ -35,18 +36,19 @@ class Abstract_Physics_Object:
         self.child_gametick(particles)
 
         self.lifetime-=self.ui.deltatime
-
-        self.velocity[0]*=self.drag
-        self.velocity[1]*=self.drag
+        self.constant_vel-=self.ui.deltatime
+        if self.constant_vel<0:
+            self.velocity[0]*=self.drag**self.ui.deltatime
+            self.velocity[1]*=self.drag**self.ui.deltatime
         
-        self.x+=self.velocity[0]
+        self.x+=self.velocity[0]*self.ui.deltatime
         if self.check_collision(mapp,entity_collide_dict):
-            self.x-=self.velocity[0]
+            self.x-=self.velocity[0]*self.ui.deltatime
             self.velocity[0]*=-self.restitution
             self.collide()
-        self.y+=self.velocity[1]
+        self.y+=self.velocity[1]*self.ui.deltatime
         if self.check_collision(mapp,entity_collide_dict):
-            self.y-=self.velocity[1]
+            self.y-=self.velocity[1]*self.ui.deltatime
             self.velocity[1]*=-self.restitution
             self.collide()
             

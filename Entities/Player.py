@@ -13,7 +13,8 @@ class Player(Spider):
                          'LEFT':[pygame.K_a,pygame.K_LEFT],
                          'RIGHT':[pygame.K_d,pygame.K_RIGHT],
                          'SHOOT':[pygame.K_SPACE],
-                         'DASH':[pygame.K_SPACE]}
+                         'DASH':[pygame.K_SPACE],
+                         'RELOAD':[pygame.K_r]}
 
         self.mpos = (0,0)
 
@@ -33,7 +34,9 @@ class Player(Spider):
 
         if self.get_pressed('SHOOT'):
             self.shoot(projectiles)
-    
+        if self.get_pressed('RELOAD'):
+            self.reload()
+            
     def get_pressed(self,code):
         if code in self.keybinds:
             for k in self.keybinds[code]:
@@ -41,5 +44,7 @@ class Player(Spider):
                     return True
         return False
 
+    def render_hud(self,Surf):
+        self.weapon.render_hud(Surf)
 
         
