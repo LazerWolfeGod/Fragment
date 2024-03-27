@@ -190,8 +190,8 @@ class Map:
             if o.get_collide(subsurf_rect):
                 o.active = True
                 object_surf = o.render_surf()
-                Surf.blit(object_surf,(o.x-subsurf_rect.x-object_surf.get_width()/2,
-                                       o.y-subsurf_rect.y-object_surf.get_height()/2))
+                Surf.blit(object_surf,(o.x-subsurf_rect.x-object_surf.get_width()/2-self.tilemap.x,
+                                       o.y-subsurf_rect.y-object_surf.get_height()/2-self.tilemap.y))
             else:
                 o.active = False
             

@@ -9,17 +9,19 @@ class Data:
     
     
     projectiles = {'Pellet':{'File':'Assets\\Projectiles\\Pellet.png',
-                             'Stats':{'Damage':1,'Knockback':0.1,'Width':10,'Drag':0.9}},
+                             'Stats':{'Knockback':0.1,'Width':10,'Drag':0.9}},
                    'Bullet':{'File':'Assets\\Projectiles\\Bullet.png',
-                           'Stats':{'Damage':1,'Knockback':0.1,'Width':11,'Restitution':1,'Collision_Limit':0}},
+                           'Stats':{'Knockback':0.1,'Width':11,'Restitution':1,'Collision_Limit':0}},
                    'Energy_Ball':{'File':'Assets\\Projectiles\\Energy_Ball.png',
-                           'Stats':{'Damage':1,'Knockback':0.1,'Width':12}},
+                           'Stats':{'Knockback':0.1,'Width':12}},
                    'Wave':{'File':'Assets\\Projectiles\\Wave.png',
-                             'Stats':{'Damage':1,'Knockback':0.1,'Width':33,'Drag':0.75}},
+                             'Stats':{'Knockback':0.1,'Width':33,'Drag':0.75}},
                    'Fire':{'File':'Assets\\Projectiles\\Fire.png',
-                           'Stats':{'Damage':1,'Knockback':0.1,'Width':12,'Restitution':0.2,'Drag':0.98,'Collision_Limit':1}},
+                           'Stats':{'Knockback':0.1,'Width':12,'Restitution':0.2,'Drag':0.98,'Collision_Limit':1}},
                    'Laser':{'File':'Assets\\Projectiles\\Laser.png',
-                           'Stats':{'Damage':1,'Knockback':0.2,'Width':8,'Restitution':1,'Drag':0.999,'Collision_Limit':3}},
+                           'Stats':{'Knockback':0.2,'Width':8,'Restitution':1,'Drag':0.999,'Collision_Limit':3}},
+                   'Melee':{'File':'Assets\\Projectiles\\Melee.png',
+                           'Stats':{'Knockback':0.2,'Width':20,'Restitution':1,'Drag':0,'Collision_Limit':0}},
                    }
 
     particles = {'Spark':{'File':'Assets\\Particles\\Spark.png',

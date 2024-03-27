@@ -19,14 +19,15 @@ class Weapon:
         self.shot_velocity = stats['Velocity']
         self.reload_time = stats['Reload']
         self.max_rounds = stats['Rounds']
-        
+        self.optimal_range = stats['Optimal_Range']
         
         self.projectile_dict = {'Energy_Ball':Energy_Ball,
                                 'Bullet':Bullet,
                                 'Fire':Fire,
                                 'Laser':Laser,
                                 'Pellet':Pellet,
-                                'Wave':Wave}
+                                'Wave':Wave,
+                                'Melee':Melee}
 
         self.projectile_obj = self.projectile_dict[self.projectile_type]
 
@@ -54,11 +55,11 @@ class Weapon:
                     for a in range(7):
                         projectiles.append(self.projectile_obj(ui,x+math.cos(self.angle)*dis,
                                      y+math.sin(self.angle)*dis,self.angle+((a-3)/7)*spread,
-                                     self.shot_velocity-player_speed_component,team))
+                                     self.shot_velocity-player_speed_component,team,self.damage))
                 else:
                     projectiles.append(self.projectile_obj(ui,x+math.cos(self.angle)*dis,
                                      y+math.sin(self.angle)*dis,random.gauss(self.angle,self.accuracy),
-                                     self.shot_velocity-player_speed_component,team))
+                                     self.shot_velocity-player_speed_component,team,self.damage))
                 self.stored_rounds-=1
                 if self.stored_rounds == 0:
                     self.reload()

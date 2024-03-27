@@ -1,0 +1,1 @@
+{"map": {"tilemap": [["Metal_Floor", "Metal_Floor"], ["Metal_Floor", "Metal_Floor"]], "pos": [-128, -128]}, "entities": [{"ID": "Player", "x_pos": 139, "y_pos": 81, "Leg": "Base", "Body": "Base", "Weapon": "Pellet_Shooter"}, {"ID": "Spider1", "x_pos": -5, "y_pos": 57, "Leg": "Base", "Body": "Base", "Weapon": "Base"}]}

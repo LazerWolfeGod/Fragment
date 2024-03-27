@@ -1,0 +1,109 @@
+{
+  "entities": [
+    {
+      "ID": "Player",
+      "x_pos": -307,
+      "y_pos": 59,
+      "Leg": "Red",
+      "Body": "Red",
+      "Weapon": "Laser"
+    },
+    {
+      "ID": "Blue",
+      "x_pos": 336,
+      "y_pos": 131,
+      "Leg": "Blue",
+      "Body": "Blue",
+      "Weapon": "Waver"
+    },
+    {
+      "ID": "Red",
+      "x_pos": 333,
+      "y_pos": 321,
+      "Leg": "Red",
+      "Body": "Red",
+      "Weapon": "Flamer"
+    },
+    {
+      "ID": "Base",
+      "x_pos": 332,
+      "y_pos": -104,
+      "Leg": "Base",
+      "Body": "Base",
+      "Weapon": "Base"
+    },
+    {
+      "ID": "Metal",
+      "x_pos": 333,
+      "y_pos": 230,
+      "Leg": "Metal",
+      "Body": "Metal",
+      "Weapon": "Rapid"
+    },
+    {
+      "ID": "Pellet",
+      "x_pos": 333,
+      "y_pos": -36,
+      "Leg": "Base",
+      "Body": "Base",
+      "Weapon": "Pellet_Shooter"
+    },
+    {
+      "ID": "Blade",
+      "x_pos": 335,
+      "y_pos": -179,
+      "Leg": "Base",
+      "Body": "Base",
+      "Weapon": "Blade"
+    },
+    {
+      "ID": "Rifle",
+      "x_pos": 339,
+      "y_pos": 41,
+      "Leg": "Base",
+      "Body": "Base",
+      "Weapon": "Rifle"
+    },
+    {
+      "ID": "Green",
+      "x_pos": 752,
+      "y_pos": 1350,
+      "Leg": "Green",
+      "Body": "Green",
+      "Weapon": "Laser"
+    }
+  ],
+  "map": {
+    "tilemap": [
+      [ "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall" ],
+      [ "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall" ],
+      [ "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall" ],
+      [ "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall" ],
+      [ "Metal_Floor", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall" ],
+      [ "Metal_Floor", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall" ],
+      [ "Metal_Wall", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall" ],
+      [ "Metal_Wall", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall" ],
+      [ "Metal_Wall", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall" ],
+      [ "Metal_Wall", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall" ],
+      [ "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall" ],
+      [ "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall" ],
+      [ "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall" ],
+      [ "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall" ],
+      [ "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall" ],
+      [ "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall" ],
+      [ "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Floor" ],
+      [ "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Floor", "Metal_Wall", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Floor" ],
+      [ "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Wall", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Wall" ],
+      [ "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Wall", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall" ],
+      [ "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall" ],
+      [ "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall" ],
+      [ "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Floor", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Floor", "Metal_Wall", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall" ],
+      [ "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Floor", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall" ],
+      [ "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall" ],
+      [ "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall" ],
+      [ "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall" ],
+      [ "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Floor", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall", "Metal_Wall" ]
+    ],
+    "pos": [ -1024, -1152 ]
+  }
+}

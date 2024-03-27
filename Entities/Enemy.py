@@ -30,10 +30,17 @@ class Enemy(Spider):
         
 
         if self.attack_target != -1:
-            self.move_vector = pygame.Vector2(0,0)
             self.target_body_angle = math.atan2(self.attack_target.y-self.y,self.attack_target.x-self.x)
-            
+
+            dis = ((self.attack_target.y-self.y)**2+(self.attack_target.x-self.x)**2)**0.5
+            if dis>self.weapon.optimal_range:
+                self.move_vector = pygame.Vector2(math.cos(self.target_body_angle),
+                                                  math.sin(self.target_body_angle))
+            else:
+                self.move_vector = pygame.Vector2(-math.cos(self.target_body_angle),
+                                                  -math.cos(self.target_body_angle))
             self.shoot(projectiles)
+            
         else:
             self.passive_move_timer+=self.ui.deltatime
             self.move_length-=self.ui.deltatime

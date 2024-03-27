@@ -40,6 +40,8 @@ class Editor_Controller:
                 if self.ui.kprs[k]:
                     return True
         return False
+
+    def render_hud(self,*_): pass
         
 class Map_Editor:
     def __init__(self,ui):
@@ -86,24 +88,27 @@ class Map_Editor:
         self.ui.maketable(90,35,titles=['File Names'],menu='open_map',objanchor=('w/2',0),ID='files_open_table'),
         
         ### Entities
-        self.entity_editor = self.ui.makewindow(10,50,180,600,autoshutwindows=['tilemap_editor','entity_editor','object_editor'],ID='entity_editor',bounditems=[
+        self.entity_editor = self.ui.makewindow(10,50,180,700,autoshutwindows=['tilemap_editor','entity_editor','object_editor'],ID='entity_editor',bounditems=[
             self.ui.makebutton(10,10,'Add Spider',width=160,command=self.add_spider),
-            self.ui.maketable(10,50,titles=['Spiders'],width=160,ID='spider_table'),
+            self.ui.makescrollertable(10,50,titles=['Spiders'],width=160,ID='spider_table',pageheight=640),
 
             ])
-        self.ui.makewindowedmenu(10,10,180,340,'edit_spider')
-        self.ui.maketextbox(10,190,'0',160,ID='edit_spider_x',command=self.pull_spider_info,attachscroller=False,intscroller=True,numsonly=True,menu='edit_spider',bounditems=[
+        self.ui.makewindowedmenu(10,10,180,375,'edit_spider')
+        self.ui.maketextbox(10,25,'',160,ID='edit_spider_name',command=self.pull_spider_info,attachscroller=False,menu='edit_spider',bounditems=[
+            self.ui.maketext(0,-23,'Name')])
+        
+        self.ui.makedropdown(10,190,list(Spider_Data.Legs.keys()),ID='edit_spider_leg',width=160,command=self.pull_spider_info,menu='edit_spider',layer=2,bounditems=[
+            self.ui.maketext(0,-23,'Leg Name')])
+        self.ui.makedropdown(10,135,list(Spider_Data.Bodies.keys()),ID='edit_spider_body',width=160,command=self.pull_spider_info,menu='edit_spider',layer=3,bounditems=[
+            self.ui.maketext(0,-23,'Body Name')])
+        self.ui.makedropdown(10,80,list(Spider_Data.Weapons.keys()),ID='edit_spider_weapon',width=160,command=self.pull_spider_info,menu='edit_spider',layer=4,bounditems=[
+            self.ui.maketext(0,-23,'Weapon Name')])
+        self.ui.maketextbox(10,245,'0',160,ID='edit_spider_x',command=self.pull_spider_info,attachscroller=False,intscroller=True,numsonly=True,menu='edit_spider',bounditems=[
             self.ui.maketext(0,-23,'X pos')])
-        self.ui.maketextbox(10,245,'0',160,ID='edit_spider_y',command=self.pull_spider_info,attachscroller=False,intscroller=True,numsonly=True,menu='edit_spider',bounditems=[
+        self.ui.maketextbox(10,300,'0',160,ID='edit_spider_y',command=self.pull_spider_info,attachscroller=False,intscroller=True,numsonly=True,menu='edit_spider',bounditems=[
             self.ui.maketext(0,-23,'Y pos')])
         
-        self.ui.makedropdown(10,25,list(Spider_Data.Legs.keys()),ID='edit_spider_leg',command=self.pull_spider_info,menu='edit_spider',layer=4,bounditems=[
-            self.ui.maketext(0,-23,'Leg Name')])
-        self.ui.makedropdown(10,80,list(Spider_Data.Bodies.keys()),ID='edit_spider_body',command=self.pull_spider_info,menu='edit_spider',layer=3,bounditems=[
-            self.ui.maketext(0,-23,'Body Name')])
-        self.ui.makedropdown(10,135,list(Spider_Data.Weapons.keys()),ID='edit_spider_weapon',command=self.pull_spider_info,menu='edit_spider',layer=2,bounditems=[
-            self.ui.maketext(0,-23,'Weapon Name')])
-        self.ui.makebutton(10,280,'Delete',command=self.delete_spider,menu='edit_spider')
+        self.ui.makebutton(10,335,'Delete',command=self.delete_spider,menu='edit_spider')
         
         
     
@@ -136,9 +141,9 @@ class Map_Editor:
         with open(resourcepath('Maps\\'+self.ui.IDs['save_textbox'].text+'.json'),'w') as f:
             json.dump(dat,f)
             
-##        self.ui.IDs['save_textbox'].settext()
         self.ui.menuback()
     def open_file(self,name):
+        self.ui.IDs['save_textbox'].settext(name.split('\\')[-1].removesuffix('.json'))
         if name == '':
             dat = {'map':{'tilemap':[['Metal_Floor']],'pos':[0,0]},
                    'entities':{}}
@@ -194,6 +199,10 @@ class Map_Editor:
         dat = {'ID':'Player','x_pos':0,'y_pos':0,'Leg':'Base','Body':'Base','Weapon':'Base'}
         if len(self.entity_data)>0:
             dat['ID'] = 'Spider'+str(len(self.entity_data))
+        if len(self.entity_data)>1:
+            dat['Leg'] = self.entity_data[1]['Leg']
+            dat['Body'] = self.entity_data[1]['Body']
+            dat['Weapon'] = self.entity_data[1]['Weapon']
         self.entity_data.append(dat)
 
         self.refresh_entities()
@@ -216,6 +225,7 @@ class Map_Editor:
     def edit_spider(self,index):
         self.spider_edit_index = index
         info = self.entity_data[index]
+        self.ui.IDs['edit_spider_name'].settext(str(info['ID']))
         self.ui.IDs['edit_spider_x'].settext(str(info['x_pos']))
         self.ui.IDs['edit_spider_y'].settext(str(info['y_pos']))
         self.ui.IDs['edit_spider_leg'].setactive(info['Leg'],False)
@@ -224,6 +234,7 @@ class Map_Editor:
         self.ui.movemenu('edit_spider','down')
     def pull_spider_info(self):
         index = self.spider_edit_index
+        self.entity_data[index]['ID'] = self.ui.IDs['edit_spider_name'].text
         self.entity_data[index]['x_pos'] = int(float(self.ui.IDs['edit_spider_x'].text))
         self.entity_data[index]['y_pos'] = int(float(self.ui.IDs['edit_spider_y'].text))
         self.entity_data[index]['Leg'] = self.ui.IDs['edit_spider_leg'].active
