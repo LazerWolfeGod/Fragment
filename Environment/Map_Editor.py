@@ -1,7 +1,8 @@
 import os,json,math
 from Environment.Map import *
-from Environment.Environment_Data import Data
-from Entities.Spider.Spider_Data import Data as Spider_Data
+from Data.Environment_Data import Environment_Data
+from Data.Spider_Data import Spider_Data
+from Data.Physics_Object_Data import Physics_Object_Data
 from Entities.Player import Player
 from Entities.Enemy import Enemy
 from Camera import Camera
@@ -51,6 +52,8 @@ class Map_Editor:
         self.map = Map(ui,128)
         self.entities = []
         self.entity_data = []
+        self.objects = []
+        self.object_data = []
         self.controller = Editor_Controller(ui,0,0)
         self.camera = Camera(self.controller,pygame.Rect(200,10,990,880),True)
 
@@ -76,7 +79,7 @@ class Map_Editor:
             
         #### Tile Map
         self.tilemap_editor = self.ui.makewindow(10,50,180,600,autoshutwindows=['tilemap_editor','entity_editor','object_editor'],ID='tilemap_editor',bounditems=[
-            self.ui.makedropdown(10,20,[a for a in Data.tile.keys()],width=160,ID='Tile_Picker',layer=5),
+            self.ui.makedropdown(10,20,[a for a in Environment_Data.tile.keys()],width=160,ID='Tile_Picker',layer=5),
             ])
         self.ui.makewindowedmenu(10,10,180,160,'save_map')
         self.ui.maketext(90,4,'{"Save" underlined=True}',menu='save_map',objanchor=('w/2',0)),
@@ -114,9 +117,26 @@ class Map_Editor:
     
         ### Objects
         self.object_editor = self.ui.makewindow(10,50,180,600,autoshutwindows=['tilemap_editor','entity_editor','object_editor'],ID='object_editor',bounditems=[
-            
+            self.ui.makebutton(10,10,'Add Object',width=160,command=self.add_object),
+            self.ui.makescrollertable(10,50,titles=['Objects'],width=160,ID='object_table',pageheight=640),
+
             ])
 
+        self.ui.makewindowedmenu(10,10,180,375,'edit_object')
+        self.ui.maketextbox(10,25,'',160,ID='edit_object_name',command=self.pull_spider_info,attachscroller=False,menu='edit_object',bounditems=[
+            self.ui.maketext(0,-23,'Name')])
+        
+        self.ui.makedropdown(10,190,list(Spider_Data.Legs.keys()),ID='edit_object',width=160,command=self.pull_spider_info,menu='edit_object',layer=2,bounditems=[
+            self.ui.maketext(0,-23,'Object Name')])
+        self.ui.maketextbox(10,245,'0',160,ID='edit_object_x',command=self.pull_object_info,attachscroller=False,intscroller=True,numsonly=True,menu='edit_object',bounditems=[
+            self.ui.maketext(0,-23,'X pos')])
+        self.ui.maketextbox(10,300,'0',160,ID='edit_object_y',command=self.pull_object_info,attachscroller=False,intscroller=True,numsonly=True,menu='edit_object',bounditems=[
+            self.ui.maketext(0,-23,'Y pos')])
+        
+        self.ui.makebutton(10,335,'Delete',command=self.delete_object,menu='edit_object')
+
+
+        
         self.swap_menu()
         
     def open_menu_init(self):
@@ -171,15 +191,16 @@ class Map_Editor:
         for i,info in enumerate(self.entity_data):
             func = pyui.funcer(self.edit_spider,index=i)
             data.append([self.ui.makebutton(0,0,info['ID'],command=func.func)])
-            self.entities.append(Map_Editor.make_spider(self.ui,info))
+            self.entities.append(Map_Editor.make_entity(self.ui,info))
         self.ui.IDs['spider_table'].data = data
         self.ui.IDs['spider_table'].refresh()
+        
     def click_drag_entities(self):
         if self.ui.mprs[0]:
             mpos = self.camera.screen_pos_to_world_pos(self.ui.mpos,self.map)
             if self.entity_holding == -1:
                 min_dis = math.inf
-                for e in self.entities:
+                for e in self.entities+self.objects:
                     dis = ((mpos[0]-e.x)**2+(mpos[1]-e.y)**2)**0.5
                     if dis<min_dis:
                         min_dis = dis
@@ -194,6 +215,64 @@ class Map_Editor:
             if self.entity_holding!=-1:
                 self.refresh_entities()
             self.entity_holding = -1
+
+    def add_spider(self,typ='Spider'):
+        dat = {'Type':typ,'ID':'Player','x_pos':0,'y_pos':0,'Leg':'Base','Body':'Base','Weapon':'Base'}
+        if len(self.entity_data)>0:
+            dat['ID'] = 'Spider'+str(len(self.entity_data))
+        if len(self.entity_data)>1:
+            dat['Leg'] = self.entity_data[1]['Leg']
+            dat['Body'] = self.entity_data[1]['Body']
+            dat['Weapon'] = self.entity_data[1]['Weapon']
+        self.entity_data.append(dat)
+
+        self.refresh_entities()
+
+    def make_entity(ui,info):
+        try:
+            if info['ID'] == 'Player':
+                return Player(ui,info['x_pos'],info['y_pos'],
+                              info['Leg'],info['Body'],info['Weapon'])
+            else:
+                return Enemy(ui,info['x_pos'],info['y_pos'],
+                              info['Leg'],info['Body'],info['Weapon'])
+        except:
+            print('Failed to make '+info['ID'])
+            return Enemy(ui,0,0,'Base','Base','Base')
+    def delete_spider(self):
+        del self.entity_data[self.spider_edit_index]
+        self.refresh_entities()
+        self.ui.menuback()
+    def edit_spider(self,index):
+        self.spider_edit_index = index
+        info = self.entity_data[index]
+        self.ui.IDs['edit_spider_name'].settext(str(info['ID']))
+        self.ui.IDs['edit_spider_x'].settext(str(info['x_pos']))
+        self.ui.IDs['edit_spider_y'].settext(str(info['y_pos']))
+        self.ui.IDs['edit_spider_leg'].setactive(info['Leg'],False)
+        self.ui.IDs['edit_spider_body'].setactive(info['Body'],False)
+        self.ui.IDs['edit_spider_weapon'].setactive(info['Weapon'],False)
+        self.ui.movemenu('edit_spider','down')
+    def pull_spider_info(self):
+        index = self.spider_edit_index
+        self.entity_data[index]['ID'] = self.ui.IDs['edit_spider_name'].text
+        self.entity_data[index]['x_pos'] = int(float(self.ui.IDs['edit_spider_x'].text))
+        self.entity_data[index]['y_pos'] = int(float(self.ui.IDs['edit_spider_y'].text))
+        self.entity_data[index]['Leg'] = self.ui.IDs['edit_spider_leg'].active
+        self.entity_data[index]['Body'] = self.ui.IDs['edit_spider_body'].active
+        self.entity_data[index]['Weapon'] = self.ui.IDs['edit_spider_weapon'].active
+        self.refresh_entities()
+        
+    ##### ignore this awful copy pasted code
+    def refresh_entities(self):
+        data = []
+        self.entities = []
+        for i,info in enumerate(self.entity_data):
+            func = pyui.funcer(self.edit_spider,index=i)
+            data.append([self.ui.makebutton(0,0,info['ID'],command=func.func)])
+            self.entities.append(Map_Editor.make_spider(self.ui,info))
+        self.ui.IDs['spider_table'].data = data
+        self.ui.IDs['spider_table'].refresh()
 
     def add_spider(self):
         dat = {'ID':'Player','x_pos':0,'y_pos':0,'Leg':'Base','Body':'Base','Weapon':'Base'}

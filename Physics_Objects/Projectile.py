@@ -1,18 +1,18 @@
 import math,pygame,random
 from Physics_Objects.Particle import *
 from Physics_Objects.Physics_Object import Abstract_Physics_Object
-from Physics_Objects.Physics_Object_Data import Data
+from Data.Physics_Object_Data import Physics_Object_Data
 from Utility_functions import *
 
 class Projectile(Abstract_Physics_Object):
     def __init__(self,ui,x,y,speed,angle,team,damage,name):
         self.name = name
         self.team = team
-        stats = Data.projectiles[self.name]['Stats']
+        stats = Physics_Object_Data.projectiles[self.name]['Stats']
         super().__init__(ui,x,y,speed,angle,stats)
         self.thing = 'Projectile'
         
-        self.image = Data.projectiles[self.name]['Image']
+        self.image = Physics_Object_Data.projectiles[self.name]['Image']
 
         self.length = self.image.get_width()*(self.width/self.image.get_height())
         self.base_image = pygame.transform.scale(self.image,(self.length,self.width))

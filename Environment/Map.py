@@ -1,7 +1,7 @@
-import pygame
+import pygame,random
 pygame.init()
 
-from Environment.Environment_Data import Data
+from Data.Environment_Data import Environment_Data
 from Entities.Objects import *
 from Utility_functions import *
 
@@ -15,13 +15,13 @@ class Tile:
         self.tilemap_x = tilemap_x
         self.tilemap_y = tilemap_y
         self.cell_size = cell_size
-        self.base_image = Data.tile[self.name]['Tile']['image'].copy()
-        self.hitboxes = Data.tile[self.name]['Tile']['hitbox'][:]
+        self.base_image = Environment_Data.tile[self.name]['Tile']['image'].copy()
+        self.hitboxes = Environment_Data.tile[self.name]['Tile']['hitbox'][:]
     def get_image(self):
         return self.image
     def set_name(self,name):
         self.name = name
-        self.layer = Data.tile[self.name]['Layer']
+        self.layer = Environment_Data.tile[self.name]['Layer']
     def refresh(self,grid,tilemap_x,tilemap_y):
         self.tilemap_x
         self.tilemap_y
@@ -36,16 +36,16 @@ class Tile:
                 overlay_list.append(-1)
        
         overlays = []
-        for tile in Data.tile:
-            if Data.tile[tile]['Layer']>self.layer:
-                for string in Data.tile[tile]['overlays']:
+        for tile in Environment_Data.tile:
+            if Environment_Data.tile[tile]['Layer']>self.layer:
+                for string in Environment_Data.tile[tile]['overlays']:
                     if self.compare_overlay_list(overlay_list,string,tile):
-                        overlays.append(Data.tile[tile]['overlays'][string])
+                        overlays.append(Environment_Data.tile[tile]['overlays'][string])
         
         overlays.sort(key=lambda x: x['Layer']) 
         
-        relative_hitboxes = Data.tile[self.name]['Tile']['hitbox'][:]
-        self.image = Data.tile[self.name]['Tile']['image'].copy()
+        relative_hitboxes = Environment_Data.tile[self.name]['Tile']['hitbox'][:]
+        self.image = Environment_Data.tile[self.name]['Tile']['image'].copy()
         for overlay in overlays:
             relative_hitboxes+=overlay['hitbox']
             self.image.blit(overlay['image'],(0,0))
@@ -175,7 +175,7 @@ class TileMap:
 
 class Map:
     def __init__(self,ui,cell_size=32,map_name=''):
-        Data.resize_tiles(cell_size,True)
+        Environment_Data.resize_tiles(cell_size,True)
         self.cell_size = cell_size
 
         self.map_name = map_name
@@ -187,7 +187,10 @@ class Map:
         Surf = self.tilemap.render(Surf,subsurf_rect)
 
         for o in objects:
-            if o.get_collide(subsurf_rect):
+            map_subsurf_rect = subsurf_rect.copy()
+            map_subsurf_rect.x+=self.tilemap.x
+            map_subsurf_rect.y+=self.tilemap.y
+            if o.get_collide(map_subsurf_rect):
                 o.active = True
                 object_surf = o.render_surf()
                 Surf.blit(object_surf,(o.x-subsurf_rect.x-object_surf.get_width()/2-self.tilemap.x,

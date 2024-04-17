@@ -1,6 +1,6 @@
 import pygame,math,random
 from Utility_functions import *
-from Entities.Spider.Spider_Data import Data
+from Data.Spider_Data import Spider_Data
 from Physics_Objects.Particle import Spider_Body
 
 
@@ -8,7 +8,7 @@ class Leg:
     def __init__(self,player_pos,player_angle,angle,leg_name,body_radius,scale):
         self.scale = scale
         
-        stats = Data.Legs[leg_name]['Stats']
+        stats = Spider_Data.Legs[leg_name]['Stats']
         self.leg_lengths = [stats['Length']*scale,stats['Length']*scale]
         self.target_distance = stats['Target_Distance']*scale
         self.leg_start_distance = body_radius*scale*0.7
@@ -33,7 +33,7 @@ class Leg:
         self.ground_target = self.get_ground_target(player_angle)
         self.move(1,player_pos,player_angle,True)
 
-        self.image = Data.Legs[leg_name]['Image']
+        self.image = Spider_Data.Legs[leg_name]['Image']
         self.image = pygame.transform.scale_by(self.image,(self.leg_lengths[0])/(self.image.get_width()-self.image.get_height()))
         self.rotated_images = [pygame.transform.rotate(self.image,angle) for angle in range(360)]
         

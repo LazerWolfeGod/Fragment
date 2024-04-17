@@ -1,7 +1,7 @@
 import pygame,json
 pygame.init()
 
-from Environment.Environment_Data import Data
+from Data.Object_Data import Object_Data
 from Utility_functions import *
 from Entities.Entity import Entity
 
@@ -14,7 +14,7 @@ class Object(Entity):
         self.team = 'None'
         
         self.name = name
-        self.stats = Data.objects[self.name]['Stats']
+        self.stats = Object_Data.objects[self.name]['Stats']
         self.width = self.stats['Width']
         self.height = self.stats['Height']
         self.mass = self.stats['Mass']
@@ -22,7 +22,7 @@ class Object(Entity):
         self.max_health = self.health
 
 
-        self.base_image = Data.objects[self.name]['Image'].copy()
+        self.base_image = Object_Data.objects[self.name]['Image'].copy()
         self.image = pygame.transform.scale(self.base_image,(self.width,self.height))
         self.image = pygame.transform.rotate(self.image,self.angle)
         

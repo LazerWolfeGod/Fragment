@@ -2,13 +2,13 @@ import pygame,math,random
 import PyUI as pyui
 from Physics_Objects.Projectile import *
 from Utility_functions import *
-from Entities.Spider.Spider_Data import Data
+from Data.Spider_Data import Spider_Data
 
 class Weapon:
     def __init__(self,weapon_name):
         self.weapon_name = weapon_name
         
-        stats = Data.Weapons[self.weapon_name]['Stats']
+        stats = Spider_Data.Weapons[self.weapon_name]['Stats']
         self.length = stats['Length']
         self.projectile_type = stats['Projectile']
         self.kick_back = stats['Kick_Back']
@@ -40,7 +40,7 @@ class Weapon:
         self.angular_velocity = 0
         self.turn_acceleration = 0.3
         
-        self.image = Data.Weapons[self.weapon_name]['Image']
+        self.image = Spider_Data.Weapons[self.weapon_name]['Image']
         self.image = pygame.transform.scale_by(self.image,(self.length)/(self.image.get_width()-self.image.get_height()))
 
 

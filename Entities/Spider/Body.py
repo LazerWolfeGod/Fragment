@@ -1,16 +1,16 @@
 import pygame,math,random
 from Utility_functions import *
-from Entities.Spider.Spider_Data import Data
+from Data.Spider_Data import Spider_Data
 
 class Body:
     def __init__(self,body_name):
         self.body_name = body_name
-        stats = Data.Bodies[self.body_name]['Stats']
+        stats = Spider_Data.Bodies[self.body_name]['Stats']
 
         self.radius = stats['Radius']
         self.mass = stats['Mass']
         self.health = stats['Health']
-        self.base_image = Data.Bodies[self.body_name]['Image']
+        self.base_image = Spider_Data.Bodies[self.body_name]['Image']
         self.image = pygame.transform.scale(self.base_image,(self.radius*2,self.radius*2))
 
     

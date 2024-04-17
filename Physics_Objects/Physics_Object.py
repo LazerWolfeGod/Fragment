@@ -1,5 +1,5 @@
 import math,pygame,random
-from Physics_Objects.Physics_Object_Data import Data
+from Data.Physics_Object_Data import Physics_Object_Data as Data
 from Utility_functions import *
 
 

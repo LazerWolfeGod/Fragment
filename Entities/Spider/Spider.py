@@ -1,6 +1,6 @@
 import pygame,math,random
 from Utility_functions import *
-from Entities.Spider.Spider_Data import Data
+from Data.Spider_Data import Spider_Data as Data
 from Entities.Spider.Leg import Leg
 from Entities.Spider.Body import Body
 from Entities.Spider.Weapon import Weapon
@@ -100,9 +100,8 @@ class Spider(Entity):
         self.weapon.gametick(deltatime,self.angle)
 
     def die(self,particles):
-        pass
-##        particles.append(Spider_Body(self.ui,self.x,self.y,self.get_vel_mag(),
-##                                     self.get_vel_angle(),self.body.image,self.radius*2))
+        particles.append(Spider_Body(self.ui,self.x,self.y,self.get_vel_mag(),
+                                     self.get_vel_angle(),self.body.image,self.radius*2))
     
     def control(self,**_): pass
     def render_hud(self,*_): pass
